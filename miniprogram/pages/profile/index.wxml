@@ -9,10 +9,11 @@
     <view class="form-body">
       <view class="field-group avatar-field">
         <text class="field-label">头像</text>
-        <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-          <image wx:if="{{profile.avatarUrl}}" class="avatar-image" src="{{profile.avatarUrl}}" mode="aspectFill" />
+        <view class="avatar-frame">
+          <image wx:if="{{profile.avatarUrl}}" class="avatar-image" src="{{profile.avatarUrl}}" mode="aspectFill" binderror="onAvatarLoadError" />
           <text wx:else class="avatar-initial">{{profile.avatarInitial}}</text>
-        </button>
+          <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像"></button>
+        </view>
       </view>
       <view class="field-group">
         <text class="field-label">昵称</text>

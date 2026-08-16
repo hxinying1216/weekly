@@ -33,8 +33,39 @@ const updateRange = (startDate, endDate) => ({
   selectedDateLabel: `${chineseDate(startDate)} 至 ${chineseDate(endDate)}`
 })
 
+const users = [
+  { id: 'all', name: '全部用户' },
+  { id: 'team-member', name: '团队成员' }
+]
+
+const filterTasks = (tasks, startDate, endDate, userId) => tasks.filter(
+  (task) => task.date >= startDate
+    && task.date <= endDate
+    && (userId === 'all' || task.userId === userId)
+)
+
+const filterState = (data, startDate, endDate, selectedUserIndex) => {
+  const selectedUser = data.users[selectedUserIndex]
+
+  return {
+    ...updateRange(startDate, endDate),
+    selectedUserIndex,
+    selectedUserName: selectedUser.name,
+    visibleTasks: filterTasks(data.tasks, startDate, endDate, selectedUser.id)
+  }
+}
+
 Page({
-  data: { ...rangeState(), pageTransition: '' },
+  data: {
+    ...rangeState(),
+    users,
+    userNames: users.map((user) => user.name),
+    selectedUserIndex: 0,
+    selectedUserName: users[0].name,
+    tasks: [],
+    visibleTasks: [],
+    pageTransition: ''
+  },
 
   onShow() {
     enterPage(this)
@@ -47,12 +78,22 @@ Page({
   onStartDateChange(event) {
     const startDate = event.detail.value
     const endDate = startDate > this.data.endDate ? startDate : this.data.endDate
-    this.setData(updateRange(startDate, endDate))
+    this.setData(filterState(this.data, startDate, endDate, this.data.selectedUserIndex))
   },
 
   onEndDateChange(event) {
     const endDate = event.detail.value
     const startDate = endDate < this.data.startDate ? endDate : this.data.startDate
-    this.setData(updateRange(startDate, endDate))
+    this.setData(filterState(this.data, startDate, endDate, this.data.selectedUserIndex))
+  },
+
+  onUserChange(event) {
+    const selectedUserIndex = Number(event.detail.value)
+    this.setData(filterState(
+      this.data,
+      this.data.startDate,
+      this.data.endDate,
+      selectedUserIndex
+    ))
   }
 })

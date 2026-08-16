@@ -29,10 +29,19 @@ Page({
     this.setData({ [field]: event.detail.value })
   },
 
-  onChooseAvatar(event) {
-    this.setData({
-      profile: { ...this.data.profile, avatarUrl: event.detail.avatarUrl }
-    })
+  onChooseAvatar({ detail = {} }) {
+    const { avatarUrl } = detail
+
+    if (!avatarUrl) {
+      wx.showToast({ title: '未获取到微信头像', icon: 'none' })
+      return
+    }
+
+    this.setData({ 'profile.avatarUrl': avatarUrl })
+  },
+
+  onAvatarLoadError() {
+    wx.showToast({ title: '头像加载失败，请重新选择', icon: 'none' })
   },
 
   saveProfile() {

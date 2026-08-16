@@ -23,8 +23,9 @@
 
 .filter-controls {
   display: flex;
+  flex-direction: row;
   align-items: flex-end;
-  gap: 24rpx;
+  gap: 16rpx;
 }
 
 .filter-group {
@@ -37,7 +38,7 @@
 
 .user-filter {
   flex: none;
-  width: 220rpx;
+  width: 160rpx;
 }
 
 .filter-label {
@@ -51,7 +52,7 @@
 .date-selectors {
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: 10rpx;
 }
 
 .date-selectors picker {
@@ -68,8 +69,8 @@
 }
 
 .date-field {
-  min-height: 108rpx;
-  padding: 18rpx;
+  height: 78rpx;
+  padding: 10rpx 14rpx;
 }
 
 .date-label,
@@ -79,14 +80,14 @@
 
 .date-label {
   color: #8a94a6;
-  font-size: 21rpx;
+  font-size: 19rpx;
 }
 
 .date-value {
-  margin-top: 8rpx;
+  margin-top: 4rpx;
   overflow: hidden;
   color: #273247;
-  font-size: 25rpx;
+  font-size: 22rpx;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -95,15 +96,15 @@
 .date-divider {
   flex: none;
   color: #8a94a6;
-  font-size: 22rpx;
+  font-size: 20rpx;
 }
 
 .user-picker-value {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 108rpx;
-  padding: 0 20rpx;
+  height: 78rpx;
+  padding: 0 14rpx;
   color: #273247;
   font-size: 26rpx;
 }
@@ -167,6 +168,16 @@
 }
 
 @media (min-width: 960px) {
+  .filter-controls {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 24rpx;
+  }
+
+  .user-filter {
+    width: 220rpx;
+  }
+
   .archive-content {
     max-width: 1160rpx;
   }
