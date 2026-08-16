@@ -1,0 +1,13 @@
+<view class="tab-bar" role="tablist">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="path"
+    class="tab-item {{selected === index ? 'tab-item-active' : ''}}"
+    data-path="{{item.path}}"
+    bindtap="onTabTap"
+    role="tab"
+    aria-selected="{{selected === index}}"
+  >
+    <text class="tab-label">{{item.text}}</text>
+  </view>
+</view>

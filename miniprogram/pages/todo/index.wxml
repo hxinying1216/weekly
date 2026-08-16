@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{pageTransition}}">
   <view class="surface focus-panel">
     <view class="focus-header">
       <view class="focus-title-area">

@@ -11,6 +11,16 @@ page {
   max-width: 1480rpx;
   margin: 0 auto;
   padding: 32rpx 28rpx 120rpx;
+  opacity: 1;
+}
+
+.page-fade-in {
+  animation: page-fade-in 240ms ease-out both;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .page-header {

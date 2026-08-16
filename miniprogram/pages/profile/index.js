@@ -1,4 +1,5 @@
 const normalize = (value) => value.trim()
+const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 const isPhone = (value) => /^1[3-9]\d{9}$/.test(value)
 
@@ -11,7 +12,16 @@ Page({
       avatarInitial: '团'
     },
     nicknameInput: '团队成员',
-    phoneInput: '13800000000'
+    phoneInput: '13800000000',
+    pageTransition: ''
+  },
+
+  onShow() {
+    enterPage(this)
+  },
+
+  transitionToTab(url) {
+    return transitionToTab(url)
   },
 
   onInput(event) {

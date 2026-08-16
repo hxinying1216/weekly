@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{pageTransition}}">
   <view class="surface archive-content">
     <view class="section-head">
       <text class="section-title">归档记录</text>

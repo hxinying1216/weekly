@@ -1,4 +1,5 @@
 const pad = (value) => String(value).padStart(2, '0')
+const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 const dateValue = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 
@@ -45,7 +46,15 @@ const updateRange = (startDate, endDate, tasks) => ({
 })
 
 Page({
-  data: rangeState(),
+  data: { ...rangeState(), pageTransition: '' },
+
+  onShow() {
+    enterPage(this)
+  },
+
+  transitionToTab(url) {
+    return transitionToTab(url)
+  },
 
   onStartDateChange(event) {
     const startDate = event.detail.value

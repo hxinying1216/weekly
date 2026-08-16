@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{pageTransition}}">
   <view class="surface profile-panel">
     <view class="section-head">
       <view>

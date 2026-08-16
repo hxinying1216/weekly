@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{pageTransition}}">
   <view class="surface task-board">
     <view class="section-head">
       <text class="section-title">任务列表</text>

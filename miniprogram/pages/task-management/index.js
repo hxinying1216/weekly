@@ -1,11 +1,21 @@
 const normalizeTitle = (value) => value.trim()
+const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 Page({
   data: {
     draftTitle: '',
     draftNote: '',
     isAddDialogVisible: false,
-    tasks: []
+    tasks: [],
+    pageTransition: ''
+  },
+
+  onShow() {
+    enterPage(this)
+  },
+
+  transitionToTab(url) {
+    return transitionToTab(url)
   },
 
   openAddDialog() {
