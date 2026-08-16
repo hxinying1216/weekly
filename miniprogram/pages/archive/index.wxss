@@ -1,0 +1,173 @@
+.archive-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24rpx;
+}
+
+.archive-filters {
+  padding: 20rpx 32rpx 28rpx;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.filter-description,
+.result-description {
+  display: block;
+  color: #8a94a6;
+  font-size: 22rpx;
+  line-height: 1.5;
+}
+
+.filter-description {
+  margin-top: 10rpx;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 24rpx;
+}
+
+.filter-group {
+  min-width: 0;
+}
+
+.date-filter {
+  flex: 1;
+}
+
+.user-filter {
+  flex: none;
+  width: 220rpx;
+}
+
+.filter-label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #4b5565;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.date-selectors {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.date-selectors picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.date-field,
+.user-picker-value {
+  box-sizing: border-box;
+  border: 1rpx solid #e0e5ed;
+  border-radius: 14rpx;
+  background: #f9fafb;
+}
+
+.date-field {
+  min-height: 108rpx;
+  padding: 18rpx;
+}
+
+.date-label,
+.date-value {
+  display: block;
+}
+
+.date-label {
+  color: #8a94a6;
+  font-size: 21rpx;
+}
+
+.date-value {
+  margin-top: 8rpx;
+  overflow: hidden;
+  color: #273247;
+  font-size: 25rpx;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date-divider {
+  flex: none;
+  color: #8a94a6;
+  font-size: 22rpx;
+}
+
+.user-picker-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 108rpx;
+  padding: 0 20rpx;
+  color: #273247;
+  font-size: 26rpx;
+}
+
+.picker-arrow {
+  color: #8a94a6;
+  font-size: 32rpx;
+}
+
+.archive-content {
+  overflow: hidden;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24rpx;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.result-description {
+  margin-top: 8rpx;
+}
+
+.archive-count {
+  flex: none;
+  color: #2563eb;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.archive-list {
+  padding: 0 32rpx;
+}
+
+.archive-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.archive-item:last-child {
+  border-bottom: 0;
+}
+
+.archive-task-title,
+.archive-task-meta {
+  display: block;
+}
+
+.archive-task-title {
+  color: #273247;
+  font-size: 27rpx;
+}
+
+.archive-task-meta {
+  margin-top: 8rpx;
+  color: #8a94a6;
+  font-size: 23rpx;
+}
+
+@media (min-width: 960px) {
+  .archive-content {
+    max-width: 1160rpx;
+  }
+}

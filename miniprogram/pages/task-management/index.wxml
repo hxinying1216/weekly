@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="surface task-board">
+    <view class="section-head">
+      <text class="section-title">任务列表</text>
+      <view class="board-tools">
+        <text class="board-hint">本次会话</text>
+        <button class="add-trigger" bindtap="openAddDialog" aria-label="添加任务">
+          <text class="add-icon">＋</text>
+          <text>添加任务</text>
+        </button>
+      </view>
+    </view>
+
+    <view wx:if="{{tasks.length}}" class="task-list">
+      <view wx:for="{{tasks}}" wx:key="id" class="task-row">
+        <view class="task-content">
+          <text class="task-title">{{item.title}}</text>
+          <text wx:if="{{item.note}}" class="task-note">{{item.note}}</text>
+        </view>
+        <button class="delete-button" data-id="{{item.id}}" bindtap="deleteTask">删除</button>
+      </view>
+    </view>
+
+    <view wx:else class="placeholder">
+      <text class="placeholder-title">还没有任务</text>
+      <text class="placeholder-text">点击右上角添加任务，即可创建第一项任务。</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isAddDialogVisible}}" class="dialog-mask" bindtap="closeAddDialog">
+    <view class="add-dialog" catchtap="stopDialogTap">
+      <view class="dialog-header">
+        <text class="section-title">添加任务</text>
+        <button class="dialog-close" bindtap="closeAddDialog" aria-label="关闭">×</button>
+      </view>
+      <view class="field-group">
+        <text class="field-label">任务名称</text>
+        <input
+          class="field-input"
+          placeholder="例如：整理项目需求"
+          value="{{draftTitle}}"
+          maxlength="80"
+          focus
+          bindinput="onTitleInput"
+          confirm-type="done"
+          bindconfirm="addTask"
+        />
+      </view>
+      <view class="field-group">
+        <text class="field-label">任务备注</text>
+        <textarea
+          class="field-note"
+          placeholder="可选，补充任务说明"
+          value="{{draftNote}}"
+          maxlength="300"
+          auto-height
+          bindinput="onNoteInput"
+        />
+      </view>
+      <view class="dialog-actions">
+        <button class="cancel-button" bindtap="closeAddDialog">取消</button>
+        <button class="confirm-button" bindtap="addTask">添加</button>
+      </view>
+    </view>
+  </view>
+</view>

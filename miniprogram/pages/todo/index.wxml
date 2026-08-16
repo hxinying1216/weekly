@@ -1,0 +1,69 @@
+<view class="container">
+  <view class="surface focus-panel">
+    <view class="focus-header">
+      <view class="focus-title-area">
+        <text class="section-title">个人待办任务</text>
+        <view class="inline-range-selectors">
+          <picker mode="date" value="{{startDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onStartDateChange">
+            <view class="inline-range-field">
+              <text class="range-label">开始日期</text>
+              <text class="range-value">{{startDateLabel}}</text>
+            </view>
+          </picker>
+          <text class="range-divider">至</text>
+          <picker mode="date" value="{{endDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onEndDateChange">
+            <view class="inline-range-field">
+              <text class="range-label">结束日期</text>
+              <text class="range-value">{{endDateLabel}}</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <button class="add-trigger" bindtap="openAddDialog" aria-label="添加任务">
+        <text class="add-icon">＋</text>
+      </button>
+    </view>
+
+    <view wx:if="{{visibleTasks.length}}" class="task-list">
+      <view wx:for="{{visibleTasks}}" wx:key="id" class="task-row">
+        <view class="task-content">
+          <text class="task-title">{{item.title}}</text>
+          <text class="task-note">{{item.note}}</text>
+        </view>
+        <text class="task-date">{{item.dateLabel}}</text>
+      </view>
+    </view>
+
+    <view wx:else class="placeholder">
+      <text class="placeholder-title">当前日期范围暂无待办</text>
+      <text class="placeholder-text">点击右上角添加任务，创建需要处理的个人事项。</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isAddDialogVisible}}" class="dialog-mask" bindtap="closeAddDialog">
+    <view class="add-dialog" catchtap="stopDialogTap">
+      <view class="dialog-header">
+        <text class="section-title">添加个人待办</text>
+        <button class="dialog-close" bindtap="closeAddDialog">×</button>
+      </view>
+      <view class="field-group">
+        <text class="field-label">任务名称</text>
+        <input class="field-input" placeholder="输入任务名称" value="{{draftTitle}}" maxlength="80" data-field="draftTitle" bindinput="onTaskInput" />
+      </view>
+      <view class="field-group">
+        <text class="field-label">任务备注</text>
+        <textarea class="field-note" placeholder="填写任务备注" value="{{draftNote}}" maxlength="300" auto-height data-field="draftNote" bindinput="onTaskInput" />
+      </view>
+      <view class="field-group">
+        <text class="field-label">任务日期</text>
+        <picker mode="date" value="{{draftDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onTaskDateChange">
+          <view class="date-picker-value">{{draftDateLabel}}</view>
+        </picker>
+      </view>
+      <view class="dialog-actions">
+        <button class="cancel-button" bindtap="closeAddDialog">取消</button>
+        <button class="confirm-button" bindtap="addTask">添加</button>
+      </view>
+    </view>
+  </view>
+</view>

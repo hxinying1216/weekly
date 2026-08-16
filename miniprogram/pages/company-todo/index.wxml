@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="surface focus-panel">
+    <view class="focus-header">
+      <view class="focus-title-area">
+        <text class="section-title">公司待办任务</text>
+        <view class="inline-range-selectors">
+          <picker mode="date" value="{{startDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onStartDateChange">
+            <view class="inline-range-field">
+              <text class="range-label">开始日期</text>
+              <text class="range-value">{{startDateLabel}}</text>
+            </view>
+          </picker>
+          <text class="range-divider">至</text>
+          <picker mode="date" value="{{endDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onEndDateChange">
+            <view class="inline-range-field">
+              <text class="range-label">结束日期</text>
+              <text class="range-value">{{endDateLabel}}</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <text class="count-mark">— 项</text>
+    </view>
+    <view class="placeholder">
+      <text class="placeholder-title">当前日期范围暂无待办</text>
+      <text class="placeholder-text">后续接入任务数据后，将在此显示范围内的公司待办事项。</text>
+    </view>
+  </view>
+</view>

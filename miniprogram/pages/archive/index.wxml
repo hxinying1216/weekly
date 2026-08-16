@@ -1,0 +1,53 @@
+<view class="container">
+  <view class="surface archive-content">
+    <view class="section-head">
+      <text class="section-title">归档记录</text>
+      <text class="archive-count">{{visibleTasks.length}} 条</text>
+    </view>
+
+    <view class="archive-filters">
+      <view class="filter-controls">
+        <view class="filter-group date-filter">
+          <text class="filter-label">日期范围</text>
+          <view class="date-selectors">
+            <picker mode="date" value="{{startDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onStartDateChange">
+              <view class="date-field">
+                <text class="date-label">开始日期</text>
+                <text class="date-value">{{startDateLabel}}</text>
+              </view>
+            </picker>
+            <text class="date-divider">至</text>
+            <picker mode="date" value="{{endDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onEndDateChange">
+              <view class="date-field">
+                <text class="date-label">结束日期</text>
+                <text class="date-value">{{endDateLabel}}</text>
+              </view>
+            </picker>
+          </view>
+        </view>
+
+        <view class="filter-group user-filter">
+          <text class="filter-label">用户</text>
+          <picker mode="selector" range="{{userNames}}" value="{{selectedUserIndex}}" bindchange="onUserChange">
+            <view class="user-picker-value">
+              <text>{{selectedUserName}}</text>
+              <text class="picker-arrow">⌄</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{visibleTasks.length}}" class="archive-list">
+      <view wx:for="{{visibleTasks}}" wx:key="id" class="archive-item">
+        <text class="archive-task-title">{{item.title}}</text>
+        <text class="archive-task-meta">{{item.userName}} · {{item.date}}</text>
+      </view>
+    </view>
+
+    <view wx:else class="placeholder">
+      <text class="placeholder-title">暂无匹配的归档记录</text>
+      <text class="placeholder-text">请调整日期范围或用户条件后重试。</text>
+    </view>
+  </view>
+</view>

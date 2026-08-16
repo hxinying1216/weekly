@@ -1,0 +1,150 @@
+.date-panel,
+.focus-panel {
+  overflow: hidden;
+}
+
+.date-panel {
+  padding: 30rpx 32rpx;
+}
+
+.range-selectors {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.range-selectors picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.range-field {
+  box-sizing: border-box;
+  min-height: 116rpx;
+  padding: 20rpx;
+  border: 1rpx solid #e0e5ed;
+  border-radius: 14rpx;
+  background: #f9fafb;
+}
+
+.range-label,
+.range-value,
+.range-hint {
+  display: block;
+}
+
+.range-label {
+  color: #8a94a6;
+  font-size: 22rpx;
+}
+
+.range-value {
+  margin-top: 10rpx;
+  overflow: hidden;
+  color: #273247;
+  font-size: 26rpx;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.range-divider {
+  flex: none;
+  color: #8a94a6;
+  font-size: 24rpx;
+}
+
+.range-hint {
+  margin-top: 18rpx;
+  color: #8a94a6;
+  font-size: 22rpx;
+}
+
+.focus-panel {
+  margin-top: 24rpx;
+}
+
+.focus-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 32rpx;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.focus-subtitle,
+.count-mark {
+  display: block;
+  margin-top: 10rpx;
+  color: #8a94a6;
+  font-size: 24rpx;
+}
+
+.focus-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.inline-range-selectors {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-top: 16rpx;
+}
+
+.inline-range-selectors picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.inline-range-field {
+  box-sizing: border-box;
+  min-width: 0;
+  height: 78rpx;
+  padding: 10rpx 14rpx;
+  overflow: hidden;
+  border: 1rpx solid #e0e5ed;
+  border-radius: 12rpx;
+  background: #f9fafb;
+}
+
+.inline-range-field .range-label,
+.inline-range-field .range-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inline-range-field .range-label {
+  font-size: 19rpx;
+}
+
+.inline-range-field .range-value {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+}
+
+.inline-range-selectors .range-divider {
+  font-size: 20rpx;
+}
+
+.count-mark {
+  flex: none;
+  margin-top: 0;
+  margin-left: 20rpx;
+  color: #2563eb;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+@media (min-width: 960px) {
+  .date-panel,
+  .focus-panel {
+    max-width: 1160rpx;
+  }
+
+  .range-selectors {
+    max-width: 760rpx;
+  }
+}
