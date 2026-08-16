@@ -86,11 +86,20 @@
   min-width: 0;
 }
 
+.focus-title-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
 .inline-range-selectors {
   display: flex;
   align-items: center;
   gap: 10rpx;
-  margin-top: 16rpx;
+  margin-top: 20rpx;
 }
 
 .inline-range-selectors picker {
@@ -131,8 +140,7 @@
 
 .count-mark {
   flex: none;
-  margin-top: 0;
-  margin-left: 20rpx;
+  margin: 0;
   color: #2563eb;
   font-size: 24rpx;
   font-weight: 600;

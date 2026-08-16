@@ -66,15 +66,11 @@
 }
 
 .focus-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 30rpx 32rpx;
   border-bottom: 1rpx solid #eef0f4;
 }
 
 .focus-title-area {
-  flex: 1;
   min-width: 0;
 }
 
@@ -139,14 +135,12 @@
 
 .add-trigger {
   display: flex;
-  flex: none;
-  align-self: flex-end;
+  flex: 1;
+  min-width: 0;
   align-items: center;
   justify-content: center;
-  width: 56rpx;
-  min-width: 56rpx;
-  height: 56rpx;
-  margin-left: 16rpx;
+  height: 78rpx;
+  margin-left: 0;
   padding: 0;
   border: 1rpx solid #e0e5ed;
   border-radius: 12rpx;
@@ -154,7 +148,7 @@
   color: #697386;
   font-size: 24rpx;
   font-weight: 500;
-  line-height: 56rpx;
+  line-height: 78rpx;
 }
 
 .add-trigger:active {

@@ -17,11 +17,11 @@
               <text class="range-value">{{endDateLabel}}</text>
             </view>
           </picker>
+          <button class="add-trigger" bindtap="openAddDialog" aria-label="添加任务">
+            <text class="add-icon">＋</text>
+          </button>
         </view>
       </view>
-      <button class="add-trigger" bindtap="openAddDialog" aria-label="添加任务">
-        <text class="add-icon">＋</text>
-      </button>
     </view>
 
     <view wx:if="{{visibleTasks.length}}" class="task-list">

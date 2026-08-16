@@ -1,5 +1,5 @@
 {
-  "appid": "wxc65a294b02b05ac9",
+  "appid": "wx42d328dd4d43cb2b",
   "projectname": "计划管理",
   "miniprogramRoot": "miniprogram/",
   "description": "团队计划管理小程序",
@@ -34,5 +34,6 @@
   },
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},
-  "editorSetting": {}
+  "editorSetting": {},
+  "libVersion": "3.17.1"
 }

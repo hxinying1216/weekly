@@ -2,7 +2,10 @@
   <view class="surface focus-panel">
     <view class="focus-header">
       <view class="focus-title-area">
-        <text class="section-title">公司待办任务</text>
+        <view class="focus-title-line">
+          <text class="section-title">公司待办任务</text>
+          <text class="count-mark">— 项</text>
+        </view>
         <view class="inline-range-selectors">
           <picker mode="date" value="{{startDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onStartDateChange">
             <view class="inline-range-field">
@@ -19,7 +22,6 @@
           </picker>
         </view>
       </view>
-      <text class="count-mark">— 项</text>
     </view>
     <view class="placeholder">
       <text class="placeholder-title">当前日期范围暂无待办</text>
