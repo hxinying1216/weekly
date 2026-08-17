@@ -17,7 +17,7 @@
 
       <view class="field-group">
         <text class="field-label">用户名</text>
-        <input class="field-input" value="{{username}}" data-field="username" bindinput="onInput" maxlength="32" placeholder="3–32 位字母、数字或 _ -" />
+        <input class="field-input" value="{{username}}" data-field="username" bindinput="onInput" maxlength="32" placeholder="3–32 位汉字、字母、数字或 _ -" />
       </view>
       <view class="field-group">
         <text class="field-label">密码</text>

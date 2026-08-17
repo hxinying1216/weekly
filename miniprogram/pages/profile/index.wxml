@@ -58,7 +58,7 @@
       <view class="form-body dialog-body">
         <view class="field-group">
           <text class="field-label">用户名</text>
-          <input class="field-input" value="{{createUsername}}" data-field="createUsername" bindinput="onInput" placeholder="3 至 32 位字母、数字或符号" maxlength="32" />
+          <input class="field-input" value="{{createUsername}}" data-field="createUsername" bindinput="onInput" placeholder="3 至 32 位汉字、字母、数字或 _ -" maxlength="32" />
         </view>
         <view class="field-group">
           <text class="field-label">密码</text>
