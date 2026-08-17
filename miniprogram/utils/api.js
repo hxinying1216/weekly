@@ -65,10 +65,13 @@ const completePersonalTodo = (id) => request({
   method: 'PATCH',
   withSession: true
 })
-const listArchiveTodos = ({ startDate, endDate }) => request({
-  url: `/api/personal-todos/archive?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`,
-  withSession: true
-})
+const listArchiveTodos = ({ startDate, endDate, assigneeId }) => {
+  const assigneeQuery = assigneeId ? `&assigneeId=${encodeURIComponent(assigneeId)}` : ''
+  return request({
+    url: `/api/personal-todos/archive?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}${assigneeQuery}`,
+    withSession: true
+  })
+}
 
 const listTeamAssignees = () => request({ url: '/api/personal-todos/assignees', withSession: true })
 const listTeamTodos = ({ startDate, endDate, assigneeId }) => {

@@ -95,13 +95,15 @@ public class PersonalTodoService {
   }
 
   public List<ArchiveProjectResponse> archiveList(
-      String authorization, LocalDate startDate, LocalDate endDate) {
+      String authorization, LocalDate startDate, LocalDate endDate, Long assigneeId) {
     User user = requireUser(authorization);
     validateDateRange(startDate, endDate);
-    List<PersonalTodo> records = user.getRole() == UserRole.ADMIN
+    requireAssigneeWhenPresent(assigneeId);
+    Long effectiveAssigneeId = user.getRole() == UserRole.ADMIN ? assigneeId : user.getId();
+    List<PersonalTodo> records = effectiveAssigneeId == null
         ? todos.findAllByCompletedAtBetweenOrderByCompletedAtDescIdDesc(startDate, endDate)
         : todos.findAllByAssigneeIdAndCompletedAtBetweenOrderByCompletedAtDescIdDesc(
-            user.getId(), startDate, endDate);
+            effectiveAssigneeId, startDate, endDate);
     records = validRecords(records);
     Map<Long, Project> projectsById = projectsFor(records);
     Map<Long, User> usersById = usersFor(records, projectsById);

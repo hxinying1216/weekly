@@ -76,6 +76,34 @@
   font-size: 20rpx;
 }
 
+.member-picker {
+  display: block;
+  margin-top: 16rpx;
+}
+
+.member-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 72rpx;
+  padding: 0 18rpx;
+  border: 1rpx solid #e0e5ed;
+  border-radius: 14rpx;
+  background: #f9fafb;
+}
+
+.member-label {
+  color: #8a94a6;
+  font-size: 22rpx;
+}
+
+.member-value {
+  color: #273247;
+  font-size: 23rpx;
+  font-weight: 600;
+}
+
 .project-list {
   padding: 24rpx 32rpx 32rpx;
 }

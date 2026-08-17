@@ -53,9 +53,10 @@ public class PersonalTodoController {
   public List<ArchiveProjectResponse> archiveList(
       @RequestHeader(value = "Authorization", required = false) String authorization,
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+      @RequestParam(required = false) Long assigneeId
   ) {
-    return todos.archiveList(authorization, startDate, endDate);
+    return todos.archiveList(authorization, startDate, endDate, assigneeId);
   }
 
   @GetMapping

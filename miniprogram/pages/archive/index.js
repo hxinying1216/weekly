@@ -1,4 +1,5 @@
-const { listArchiveTodos } = require('../../utils/api')
+const { listArchiveTodos, listTeamAssignees } = require('../../utils/api')
+const { getSession } = require('../../utils/session')
 const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 const pad = (value) => String(value).padStart(2, '0')
@@ -24,6 +25,11 @@ const rangeState = () => {
     endDateLabel: chineseDate(current),
     projects: [],
     subtaskCount: 0,
+    isUserFilterVisible: false,
+    members: [],
+    memberNames: [],
+    selectedMemberIndex: 0,
+    selectedMemberName: '全部用户',
     isLoading: false
   }
 }
@@ -47,11 +53,34 @@ Page({
   data: { ...rangeState(), pageTransition: '' },
 
   onShow() {
-    if (enterPage(this)) this.loadArchive()
+    if (enterPage(this)) this.initializeArchive()
   },
 
   transitionToTab(url) {
     return transitionToTab(url)
+  },
+
+  async initializeArchive() {
+    const isAdmin = getSession()?.role === 'ADMIN'
+    if (isAdmin) {
+      try {
+        const users = await listTeamAssignees()
+        const members = [{ id: null, username: '全部用户' }, ...users]
+        this.setData({
+          isUserFilterVisible: true,
+          members,
+          memberNames: members.map((member) => member.username),
+          selectedMemberIndex: 0,
+          selectedMemberName: '全部用户'
+        })
+      } catch (error) {
+        wx.showToast({ title: messageOf(error), icon: 'none' })
+        return
+      }
+    } else {
+      this.setData({ isUserFilterVisible: false, members: [] })
+    }
+    await this.loadArchive()
   },
 
   async loadArchive() {
@@ -59,7 +88,8 @@ Page({
     try {
       const projects = (await listArchiveTodos({
         startDate: this.data.startDate,
-        endDate: this.data.endDate
+        endDate: this.data.endDate,
+        assigneeId: this.data.members[this.data.selectedMemberIndex]?.id
       })).map(projectOf)
       this.setData({
         projects,
@@ -70,6 +100,16 @@ Page({
     } finally {
       this.setData({ isLoading: false })
     }
+  },
+
+  async onUserChange(event) {
+    const selectedMemberIndex = Number(event.detail.value)
+    const selectedMember = this.data.members[selectedMemberIndex]
+    this.setData({
+      selectedMemberIndex,
+      selectedMemberName: selectedMember.username
+    })
+    await this.loadArchive()
   },
 
   async onStartDateChange(event) {

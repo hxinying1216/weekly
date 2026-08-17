@@ -24,6 +24,12 @@
           </view>
         </picker>
       </view>
+      <picker wx:if="{{isUserFilterVisible}}" class="member-picker" range="{{memberNames}}" value="{{selectedMemberIndex}}" bindchange="onUserChange">
+        <view class="member-field">
+          <text class="member-label">完成用户</text>
+          <text class="member-value">{{selectedMemberName}}</text>
+        </view>
+      </picker>
     </view>
 
     <view wx:if="{{isLoading}}" class="placeholder">
