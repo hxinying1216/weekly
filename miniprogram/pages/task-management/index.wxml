@@ -1,9 +1,9 @@
 <view class="container {{pageTransition}}">
   <view class="surface task-board">
     <view class="section-head">
-      <text class="section-title">任务列表</text>
+      <text class="section-title">项目任务</text>
       <view class="board-tools">
-        <text class="board-hint">本次会话</text>
+        <text class="board-hint">已持久化</text>
         <button class="add-trigger" bindtap="openAddDialog" aria-label="添加任务">
           <text class="add-icon">＋</text>
           <text>添加任务</text>
@@ -11,19 +11,23 @@
       </view>
     </view>
 
-    <view wx:if="{{tasks.length}}" class="task-list">
-      <view wx:for="{{tasks}}" wx:key="id" class="task-row">
+    <view wx:if="{{isLoading}}" class="placeholder">
+      <text class="placeholder-text">正在加载任务…</text>
+    </view>
+
+    <view wx:elif="{{projects.length}}" class="task-list">
+      <view wx:for="{{projects}}" wx:key="id" class="task-row">
         <view class="task-content">
-          <text class="task-title">{{item.title}}</text>
-          <text wx:if="{{item.note}}" class="task-note">{{item.note}}</text>
+          <text class="task-title">{{item.title}}（创建人：{{item.creator}}）</text>
+          <text wx:if="{{item.note}}" class="task-note">主备注：{{item.note}}</text>
         </view>
         <button class="delete-button" data-id="{{item.id}}" bindtap="deleteTask">删除</button>
       </view>
     </view>
 
     <view wx:else class="placeholder">
-      <text class="placeholder-title">还没有任务</text>
-      <text class="placeholder-text">点击右上角添加任务，即可创建第一项任务。</text>
+      <text class="placeholder-title">还没有项目任务</text>
+      <text class="placeholder-text">点击右上角添加任务，即可创建第一个可分配的项目。</text>
     </view>
   </view>
 
@@ -58,8 +62,8 @@
         />
       </view>
       <view class="dialog-actions">
-        <button class="cancel-button" bindtap="closeAddDialog">取消</button>
-        <button class="confirm-button" bindtap="addTask">添加</button>
+        <button class="cancel-button" bindtap="closeAddDialog" disabled="{{isSaving}}">取消</button>
+        <button class="confirm-button" bindtap="addTask" loading="{{isSaving}}" disabled="{{isSaving}}">{{isSaving ? '创建中' : '添加'}}</button>
       </view>
     </view>
   </view>

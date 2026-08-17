@@ -1,0 +1,32 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE and editor settings
+.idea/
+.vscode/
+.cursor/
+*.iml
+
+# Java / Maven build output
+backend/target/
+*.class
+*.jar
+*.war
+
+# Local environment and secret configuration
+.env
+.env.*
+!.env.example
+backend/src/main/resources/application-local.yml
+backend/src/main/resources/application-secret.yml
+
+# WeChat Mini Program local artifacts
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
+miniprogram/.cache/
+project.private.config.json
+
+# Local temporary scripts and files
+CreateAdmin.java
+1.txt

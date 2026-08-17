@@ -184,7 +184,8 @@
 }
 
 .task-title,
-.task-note {
+.task-note,
+.task-assignee {
   display: block;
   word-break: break-all;
 }
@@ -195,7 +196,8 @@
   line-height: 1.5;
 }
 
-.task-note {
+.task-note,
+.task-assignee {
   margin-top: 6rpx;
   color: #8a94a6;
   font-size: 24rpx;

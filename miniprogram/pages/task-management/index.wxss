@@ -66,7 +66,7 @@
 .task-row {
   display: flex;
   align-items: center;
-  gap: 24rpx;
+  gap: 16rpx;
   min-height: 112rpx;
   border-bottom: 1rpx solid #eef0f4;
 }
@@ -98,12 +98,16 @@
 }
 
 .delete-button {
-  flex: none;
-  padding: 12rpx 16rpx;
+  flex: 0 0 120rpx;
+  width: 120rpx;
+  height: 64rpx;
+  padding: 0;
+  box-sizing: border-box;
   border-radius: 10rpx;
   background: #fff1f2;
   color: #dc2626;
   font-size: 24rpx;
+  line-height: 64rpx;
 }
 
 .dialog-mask {

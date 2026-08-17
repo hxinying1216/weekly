@@ -133,13 +133,18 @@ Page({
       const user = await updateUserRole(id, role)
       const session = getSession()
       if (session && user.id === session.id) {
+        if (user.role === 'USER') {
+          clearSession()
+          wx.showToast({ title: '已设为普通用户，请重新登录', icon: 'none' })
+          setTimeout(() => wx.reLaunch({ url: '/pages/auth/index' }), 800)
+          return
+        }
+
         saveSession({ ...session, role: user.role })
-        const isAdmin = user.role === 'ADMIN'
         this.setData({
-          isAdmin,
-          userRole: isAdmin ? '管理员' : '普通用户',
-          accessScope: accessScopeFor(user.role),
-          users: isAdmin ? this.data.users : []
+          isAdmin: true,
+          userRole: '管理员',
+          accessScope: accessScopeFor(user.role)
         })
       }
       wx.showToast({ title: '角色已更新', icon: 'success' })

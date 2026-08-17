@@ -24,13 +24,18 @@
       </view>
     </view>
 
-    <view wx:if="{{visibleTasks.length}}" class="task-list">
+    <view wx:if="{{isLoading}}" class="placeholder">
+      <text class="placeholder-text">正在加载个人待办…</text>
+    </view>
+
+    <view wx:elif="{{visibleTasks.length}}" class="task-list">
       <view wx:for="{{visibleTasks}}" wx:key="id" class="task-row">
         <view class="task-content">
           <text class="task-title">{{item.title}}</text>
           <text class="task-note">{{item.note}}</text>
+          <text class="task-assignee">接取人：{{item.assignee}}</text>
         </view>
-        <text class="task-date">{{item.dateLabel}}</text>
+        <text class="task-date">截止：{{item.dateLabel}}</text>
       </view>
     </view>
 
@@ -47,15 +52,17 @@
         <button class="dialog-close" bindtap="closeAddDialog">×</button>
       </view>
       <view class="field-group">
-        <text class="field-label">任务名称</text>
-        <input class="field-input" placeholder="输入任务名称" value="{{draftTitle}}" maxlength="80" data-field="draftTitle" bindinput="onTaskInput" />
+        <text class="field-label">主任务</text>
+        <picker range="{{projectLabels}}" value="{{draftProjectIndex}}" bindchange="onProjectChange">
+          <view class="date-picker-value">{{projectLabels[draftProjectIndex]}}</view>
+        </picker>
       </view>
       <view class="field-group">
-        <text class="field-label">任务备注</text>
-        <textarea class="field-note" placeholder="填写任务备注" value="{{draftNote}}" maxlength="300" auto-height data-field="draftNote" bindinput="onTaskInput" />
+        <text class="field-label">个人备注</text>
+        <textarea class="field-note" placeholder="填写个人补充说明" value="{{draftNote}}" maxlength="300" auto-height bindinput="onTaskInput" />
       </view>
       <view class="field-group">
-        <text class="field-label">任务日期</text>
+        <text class="field-label">截止日期</text>
         <picker mode="date" value="{{draftDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onTaskDateChange">
           <view class="date-picker-value">{{draftDateLabel}}</view>
         </picker>

@@ -38,5 +38,43 @@ const updateUserRole = (id, role) => request({
   withSession: true
 })
 const deleteUser = (id) => request({ url: `/api/users/${id}`, method: 'DELETE', withSession: true })
+const listProjects = () => request({ url: '/api/projects', withSession: true })
+const createProject = (project) => request({ url: '/api/projects', method: 'POST', data: project, withSession: true })
+const deleteProject = (id) => request({ url: `/api/projects/${id}`, method: 'DELETE', withSession: true })
 
-module.exports = { authenticate, listUsers, createUser, updateUserRole, deleteUser }
+const listAvailableProjects = () => request({ url: '/api/personal-todos/available-projects', withSession: true })
+const listPersonalTodos = ({ startDate, endDate }) => request({
+  url: `/api/personal-todos?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`,
+  withSession: true
+})
+const createPersonalTodo = (todo) => request({
+  url: '/api/personal-todos',
+  method: 'POST',
+  data: todo,
+  withSession: true
+})
+
+const listTeamAssignees = () => request({ url: '/api/personal-todos/assignees', withSession: true })
+const listTeamTodos = ({ startDate, endDate, assigneeId }) => {
+  const assigneeQuery = assigneeId ? `&assigneeId=${encodeURIComponent(assigneeId)}` : ''
+  return request({
+    url: `/api/personal-todos/team?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}${assigneeQuery}`,
+    withSession: true
+  })
+}
+
+module.exports = {
+  authenticate,
+  listUsers,
+  createUser,
+  updateUserRole,
+  deleteUser,
+  listProjects,
+  createProject,
+  deleteProject,
+  listAvailableProjects,
+  listPersonalTodos,
+  createPersonalTodo,
+  listTeamAssignees,
+  listTeamTodos
+}

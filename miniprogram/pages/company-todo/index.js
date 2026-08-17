@@ -1,19 +1,26 @@
-const pad = (value) => String(value).padStart(2, '0')
+const { listTeamAssignees, listTeamTodos } = require('../../utils/api')
 const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
+const pad = (value) => String(value).padStart(2, '0')
 const dateValue = (date) => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
-
 const chineseDate = (value) => {
   const [year, month, day] = value.split('-').map(Number)
   return `${year}年${month}月${day}日`
 }
+const messageOf = (error) => error?.message || '请求失败，请稍后重试'
+const standardizeProject = (project) => ({
+  ...project,
+  subtasks: project.subtasks.map((subtask) => ({
+    ...subtask,
+    dateLabel: chineseDate(subtask.dueDate)
+  }))
+})
 
 const rangeState = () => {
   const today = new Date()
   const minimum = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
   const maximum = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
   const current = dateValue(today)
-
   return {
     minimumDate: dateValue(minimum),
     maximumDate: dateValue(maximum),
@@ -33,67 +40,82 @@ const updateRange = (startDate, endDate) => ({
   selectedDateLabel: `${chineseDate(startDate)} 至 ${chineseDate(endDate)}`
 })
 
-const users = [
-  { id: 'all', name: '全部用户' },
-  { id: 'team-member', name: '团队成员' }
-]
-
-const filterTasks = (tasks, startDate, endDate, userId) => tasks.filter(
-  (task) => task.date >= startDate
-    && task.date <= endDate
-    && (userId === 'all' || task.userId === userId)
-)
-
-const filterState = (data, startDate, endDate, selectedUserIndex) => {
-  const selectedUser = data.users[selectedUserIndex]
-
-  return {
-    ...updateRange(startDate, endDate),
-    selectedUserIndex,
-    selectedUserName: selectedUser.name,
-    visibleTasks: filterTasks(data.tasks, startDate, endDate, selectedUser.id)
-  }
-}
-
 Page({
   data: {
     ...rangeState(),
-    users,
-    userNames: users.map((user) => user.name),
-    selectedUserIndex: 0,
-    selectedUserName: users[0].name,
-    tasks: [],
-    visibleTasks: [],
+    members: [],
+    memberNames: [],
+    selectedMemberIndex: 0,
+    selectedMemberName: '全部成员',
+    projects: [],
+    isLoading: false,
     pageTransition: ''
   },
 
   onShow() {
-    enterPage(this)
+    if (enterPage(this)) this.loadBoard()
   },
 
   transitionToTab(url) {
     return transitionToTab(url)
   },
 
-  onStartDateChange(event) {
+  async loadBoard() {
+    this.setData({ isLoading: true })
+    try {
+      const members = await listTeamAssignees()
+      const normalizedMembers = [{ id: null, username: '全部成员' }, ...members]
+      this.setData({
+        members: normalizedMembers,
+        memberNames: normalizedMembers.map((member) => member.username),
+        selectedMemberIndex: 0,
+        selectedMemberName: '全部成员'
+      })
+      await this.loadTasks(normalizedMembers[0].id)
+    } catch (error) {
+      wx.showToast({ title: messageOf(error), icon: 'none' })
+    } finally {
+      this.setData({ isLoading: false })
+    }
+  },
+
+  async loadTasks(assigneeId = this.data.members[this.data.selectedMemberIndex]?.id) {
+    this.setData({ isLoading: true })
+    try {
+      const projects = await listTeamTodos({
+        startDate: this.data.startDate,
+        endDate: this.data.endDate,
+        assigneeId
+      })
+      this.setData({ projects: projects.map(standardizeProject) })
+    } catch (error) {
+      wx.showToast({ title: messageOf(error), icon: 'none' })
+    } finally {
+      this.setData({ isLoading: false })
+    }
+  },
+
+  async onStartDateChange(event) {
     const startDate = event.detail.value
     const endDate = startDate > this.data.endDate ? startDate : this.data.endDate
-    this.setData(filterState(this.data, startDate, endDate, this.data.selectedUserIndex))
+    this.setData(updateRange(startDate, endDate))
+    await this.loadTasks()
   },
 
-  onEndDateChange(event) {
+  async onEndDateChange(event) {
     const endDate = event.detail.value
     const startDate = endDate < this.data.startDate ? endDate : this.data.startDate
-    this.setData(filterState(this.data, startDate, endDate, this.data.selectedUserIndex))
+    this.setData(updateRange(startDate, endDate))
+    await this.loadTasks()
   },
 
-  onUserChange(event) {
-    const selectedUserIndex = Number(event.detail.value)
-    this.setData(filterState(
-      this.data,
-      this.data.startDate,
-      this.data.endDate,
-      selectedUserIndex
-    ))
+  async onUserChange(event) {
+    const selectedMemberIndex = Number(event.detail.value)
+    const selectedMember = this.data.members[selectedMemberIndex]
+    this.setData({
+      selectedMemberIndex,
+      selectedMemberName: selectedMember.username
+    })
+    await this.loadTasks(selectedMember.id)
   }
 })

@@ -4,7 +4,7 @@
       <view class="focus-title-area">
         <view class="focus-title-line">
           <text class="section-title">团队大板</text>
-          <text class="count-mark">— 项</text>
+          <text class="count-mark">— {{projects.length}} 项</text>
         </view>
         <view class="filter-controls">
           <view class="filter-group date-filter">
@@ -27,9 +27,9 @@
           </view>
           <view class="filter-group user-filter">
             <text class="filter-label">用户</text>
-            <picker mode="selector" range="{{userNames}}" value="{{selectedUserIndex}}" bindchange="onUserChange">
+            <picker mode="selector" range="{{memberNames}}" value="{{selectedMemberIndex}}" bindchange="onUserChange">
               <view class="user-picker-value">
-                <text>{{selectedUserName}}</text>
+                <text>{{selectedMemberName}}</text>
                 <text class="picker-arrow">⌄</text>
               </view>
             </picker>
@@ -37,9 +37,29 @@
         </view>
       </view>
     </view>
-    <view class="placeholder">
-      <text class="placeholder-title">当前日期范围暂无待办</text>
-      <text class="placeholder-text">后续接入任务数据后，将在此显示范围内的团队任务。</text>
+    <view wx:if="{{isLoading}}" class="placeholder">
+      <text class="placeholder-text">正在加载团队待办…</text>
+    </view>
+
+    <view wx:elif="{{projects.length}}" class="project-list">
+      <view wx:for="{{projects}}" wx:key="id" class="project-card">
+        <text class="task-title">{{item.title}}（创建人：{{item.creator}}）</text>
+        <text class="project-note">主备注：{{item.note}}</text>
+        <view class="subtask-list">
+          <view wx:for="{{item.subtasks}}" wx:key="id" class="subtask-unit">
+            <text class="subtask-note">子备注：{{item.note}}</text>
+            <view class="subtask-meta">
+              <text>接取人：{{item.assignee}}</text>
+              <text>截止：{{item.dateLabel}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:else class="placeholder">
+      <text class="placeholder-title">当前筛选条件暂无待办</text>
+      <text class="placeholder-text">可调整截止日期范围或接取人后重试。</text>
     </view>
   </view>
 </view>
