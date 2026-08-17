@@ -10,7 +10,7 @@ page {
   width: 100%;
   max-width: 1480rpx;
   margin: 0 auto;
-  padding: 32rpx 28rpx 120rpx;
+  padding: 32rpx 28rpx calc(200rpx + env(safe-area-inset-bottom));
   opacity: 1;
 }
 

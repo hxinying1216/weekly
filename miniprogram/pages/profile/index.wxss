@@ -6,6 +6,25 @@
   margin-top: 24rpx;
 }
 
+.account-actions {
+  padding: 20rpx 32rpx 30rpx;
+}
+
+.logout-button {
+  height: 72rpx;
+  margin: 0;
+  border: 1rpx solid #f3c5ca;
+  border-radius: 12rpx;
+  background: #fff7f7;
+  color: #d14343;
+  font-size: 25rpx;
+  line-height: 70rpx;
+}
+
+.logout-button::after {
+  border: 0;
+}
+
 .section-head {
   padding: 30rpx 32rpx;
   border-bottom: 1rpx solid #eef0f4;
@@ -118,4 +137,219 @@
   .profile-panel {
     max-width: 900rpx;
   }
+}
+
+.management-panel {
+  margin-top: 24rpx;
+}
+
+.management-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.create-user-button,
+.role-button,
+.delete-user-button,
+.role-option {
+  margin: 0;
+  border-radius: 12rpx;
+  font-size: 23rpx;
+}
+
+.create-user-button {
+  padding: 0 22rpx;
+  border: 0;
+  background: #2563eb;
+  color: #ffffff;
+  line-height: 60rpx;
+}
+
+.user-list {
+  padding: 0 32rpx;
+}
+
+.user-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.user-row:last-child {
+  border-bottom: 0;
+}
+
+.user-summary,
+.user-actions,
+.role-select,
+.dialog-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 14rpx;
+}
+
+.user-name {
+  overflow: hidden;
+  color: #172033;
+  font-size: 27rpx;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.role-chip {
+  flex: none;
+  padding: 6rpx 12rpx;
+  border-radius: 999rpx;
+  font-size: 20rpx;
+}
+
+.role-admin {
+  background: #fdf2e5;
+  color: #b45309;
+}
+
+.role-user {
+  background: #edf4ff;
+  color: #2563eb;
+}
+
+.user-actions {
+  display: flex;
+  flex: none;
+  gap: 12rpx;
+}
+
+.user-actions button {
+  flex: 1;
+}
+
+.role-button {
+  border: 1rpx solid #b7d1ff;
+  background: #f4f8ff;
+  color: #2563eb;
+}
+
+.delete-user-button {
+  border: 1rpx solid #f3c5ca;
+  background: #fff7f7;
+  color: #d14343;
+}
+
+.role-button::after,
+.delete-user-button::after,
+.create-user-button::after,
+.role-option::after {
+  border: 0;
+}
+
+.dialog-mask {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 28rpx 28rpx calc(180rpx + env(safe-area-inset-bottom));
+  background: rgba(23, 32, 51, 0.45);
+}
+
+.user-dialog {
+  width: 100%;
+  max-width: 760rpx;
+  overflow: hidden;
+  border-radius: 20rpx;
+  background: #ffffff;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #eef0f4;
+}
+
+.dialog-close {
+  width: 56rpx;
+  height: 56rpx;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #697386;
+  font-size: 42rpx;
+  line-height: 52rpx;
+}
+
+.dialog-close::after {
+  border: 0;
+}
+
+.dialog-body {
+  padding-top: 0;
+}
+
+.role-select {
+  gap: 16rpx;
+  margin-top: 12rpx;
+}
+
+.role-option {
+  flex: 1;
+  border: 1rpx solid #d9dee8;
+  background: #f9fafb;
+  color: #697386;
+}
+
+.role-option-active {
+  border-color: #2563eb;
+  background: #edf4ff;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.cancel-button,
+.confirm-button {
+  margin: 0;
+  padding: 0 30rpx;
+  border-radius: 12rpx;
+  font-size: 25rpx;
+  line-height: 72rpx;
+}
+
+.cancel-button {
+  border: 1rpx solid #d9dee8;
+  background: #ffffff;
+  color: #697386;
+}
+
+.confirm-button {
+  border: 0;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.cancel-button::after,
+.confirm-button::after {
+  border: 0;
 }

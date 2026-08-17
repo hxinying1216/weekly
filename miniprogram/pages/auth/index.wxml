@@ -1,0 +1,31 @@
+<view class="auth-page">
+  <view class="brand-block">
+    <text class="eyebrow">WEEKLY PLAN</text>
+    <text class="brand-title">让计划持续推进</text>
+    <text class="brand-description">使用账号登录，统一管理个人与团队计划。</text>
+  </view>
+
+  <view class="auth-card">
+    <view class="mode-tabs" role="tablist">
+      <view class="mode-tab {{mode === 'login' ? 'is-active' : ''}}" data-mode="login" bindtap="switchMode">登录</view>
+      <view class="mode-tab {{mode === 'register' ? 'is-active' : ''}}" data-mode="register" bindtap="switchMode">注册</view>
+    </view>
+
+    <view class="form-body">
+      <text class="form-title">{{mode === 'login' ? '欢迎回来' : '创建账号'}}</text>
+      <text class="form-description">{{mode === 'login' ? '请输入账号信息以继续。' : '注册后将自动成为普通用户。'}}</text>
+
+      <view class="field-group">
+        <text class="field-label">用户名</text>
+        <input class="field-input" value="{{username}}" data-field="username" bindinput="onInput" maxlength="32" placeholder="3–32 位字母、数字或 _ -" />
+      </view>
+      <view class="field-group">
+        <text class="field-label">密码</text>
+        <input class="field-input" value="{{password}}" data-field="password" bindinput="onInput" password maxlength="72" placeholder="至少 6 位" />
+      </view>
+
+      <button class="primary-button" loading="{{isSubmitting}}" disabled="{{isSubmitting}}" bindtap="submit">{{mode === 'login' ? '登录' : '注册并登录'}}</button>
+      <text wx:if="{{mode === 'register'}}" class="role-tip">管理员账号由系统管理员在数据库中创建。</text>
+    </view>
+  </view>
+</view>

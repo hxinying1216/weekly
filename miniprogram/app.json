@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/auth/index",
     "pages/task-management/index",
     "pages/todo/index",
     "pages/company-todo/index",

@@ -1,0 +1,17 @@
+com\weekly\plan\auth\CredentialsRequest.class
+com\weekly\plan\auth\UserManagementService.class
+com\weekly\plan\auth\UserRoleUpdateRequest.class
+com\weekly\plan\WeeklyPlanApplication.class
+com\weekly\plan\auth\User.class
+com\weekly\plan\auth\UserManagementController.class
+com\weekly\plan\auth\WebConfig.class
+com\weekly\plan\auth\AuthResponse.class
+com\weekly\plan\auth\UserRepository.class
+com\weekly\plan\auth\SessionService.class
+com\weekly\plan\auth\AuthController.class
+com\weekly\plan\auth\ManagedUserCreateRequest.class
+com\weekly\plan\auth\UserRole.class
+com\weekly\plan\auth\ApiExceptionHandler.class
+com\weekly\plan\auth\WebConfig$1.class
+com\weekly\plan\auth\AuthService.class
+com\weekly\plan\auth\ManagedUserResponse.class
