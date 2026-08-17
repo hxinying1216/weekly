@@ -55,7 +55,7 @@
     <view class="add-dialog" catchtap="stopDialogTap">
       <view class="dialog-header">
         <text class="section-title">添加个人待办</text>
-        <button class="dialog-close" bindtap="closeAddDialog">×</button>
+        <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeAddDialog">×</view>
       </view>
       <view class="field-group">
         <text class="field-label">主任务</text>

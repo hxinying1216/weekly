@@ -53,7 +53,7 @@
     <view class="user-dialog" catchtap="stopDialogTap">
       <view class="dialog-header">
         <text class="section-title">创建用户</text>
-        <button class="dialog-close" bindtap="closeCreateDialog" aria-label="关闭">×</button>
+        <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeCreateDialog">×</view>
       </view>
       <view class="form-body dialog-body">
         <view class="field-group">
@@ -83,7 +83,7 @@
     <view class="user-dialog" catchtap="stopDialogTap">
       <view class="dialog-header">
         <text class="section-title">编辑用户</text>
-        <button class="dialog-close" bindtap="closeEditDialog" aria-label="关闭">×</button>
+        <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeEditDialog">×</view>
       </view>
       <view class="form-body dialog-body">
         <view class="field-group">
