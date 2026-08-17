@@ -1,4 +1,4 @@
-const { listAvailableProjects, listPersonalTodos, createPersonalTodo } = require('../../utils/api')
+const { listAvailableProjects, listPersonalTodos, createPersonalTodo, completePersonalTodo } = require('../../utils/api')
 const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 const pad = (value) => String(value).padStart(2, '0')
@@ -10,11 +10,16 @@ const chineseDate = (value) => {
   return `${year}年${month}月${day}日`
 }
 
-const taskOf = (todo) => ({
-  ...todo,
-  date: todo.dueDate,
-  dateLabel: chineseDate(todo.dueDate)
-})
+const taskOf = (todo) => {
+  const [mainNote = '', childNote = ''] = todo.note.split('\n')
+  return {
+    ...todo,
+    mainNote,
+    childNote,
+    date: todo.dueDate,
+    dateLabel: chineseDate(todo.dueDate)
+  }
+}
 
 const rangeState = () => {
   const today = new Date()
@@ -36,6 +41,7 @@ const rangeState = () => {
     projectLabels: [],
     isLoading: false,
     isSaving: false,
+    completingId: null,
     isAddDialogVisible: false,
     draftProjectIndex: 0,
     draftNote: '',
@@ -65,22 +71,31 @@ Page({
 
   async loadTodos() {
     this.setData({ isLoading: true })
+    let firstError = null
+
     try {
-      const [projects, todos] = await Promise.all([
-        listAvailableProjects(),
-        listPersonalTodos({ startDate: this.data.startDate, endDate: this.data.endDate })
-      ])
+      const projects = await listAvailableProjects()
       this.setData({
         projects,
-        projectLabels: projects.map((project) => `${project.title}（创建人：${project.creator}）`),
-        tasks: todos.map(taskOf),
-        visibleTasks: todos.map(taskOf)
+        projectLabels: projects.map((project) => `${project.title}（创建人：${project.creator}）`)
       })
     } catch (error) {
-      wx.showToast({ title: messageOf(error), icon: 'none' })
+      firstError = error
+    }
+
+    try {
+      const tasks = (await listPersonalTodos({
+        startDate: this.data.startDate,
+        endDate: this.data.endDate
+      })).map(taskOf)
+      this.setData({ tasks, visibleTasks: tasks })
+    } catch (error) {
+      firstError = firstError || error
     } finally {
       this.setData({ isLoading: false })
     }
+
+    if (firstError) wx.showToast({ title: messageOf(firstError), icon: 'none' })
   },
 
   async onStartDateChange(event) {
@@ -95,6 +110,30 @@ Page({
     const startDate = endDate < this.data.startDate ? endDate : this.data.startDate
     this.setData(updateRange(startDate, endDate))
     await this.loadTodos()
+  },
+
+  async completeTask(event) {
+    const id = Number(event.currentTarget.dataset.id)
+    const confirmed = await new Promise((resolve) => {
+      wx.showModal({
+        title: '完成任务',
+        content: '确认将此任务设为完成？完成后将移入任务归档。',
+        success: ({ confirm }) => resolve(confirm),
+        fail: () => resolve(false)
+      })
+    })
+    if (!confirmed) return
+
+    this.setData({ completingId: id })
+    try {
+      await completePersonalTodo(id)
+      await this.loadTodos()
+      wx.showToast({ title: '任务已归档', icon: 'success' })
+    } catch (error) {
+      wx.showToast({ title: messageOf(error), icon: 'none' })
+    } finally {
+      this.setData({ completingId: null })
+    }
   },
 
   openAddDialog() {

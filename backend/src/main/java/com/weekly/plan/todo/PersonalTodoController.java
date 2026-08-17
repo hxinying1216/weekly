@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -47,6 +49,15 @@ public class PersonalTodoController {
     return todos.teamList(authorization, startDate, endDate, assigneeId);
   }
 
+  @GetMapping("/archive")
+  public List<ArchiveProjectResponse> archiveList(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+  ) {
+    return todos.archiveList(authorization, startDate, endDate);
+  }
+
   @GetMapping
   public List<PersonalTodoResponse> list(
       @RequestHeader(value = "Authorization", required = false) String authorization,
@@ -54,6 +65,15 @@ public class PersonalTodoController {
       @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
   ) {
     return todos.list(authorization, startDate, endDate);
+  }
+
+  @PatchMapping("/{todoId}/complete")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void complete(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @PathVariable Long todoId
+  ) {
+    todos.complete(authorization, todoId);
   }
 
   @PostMapping

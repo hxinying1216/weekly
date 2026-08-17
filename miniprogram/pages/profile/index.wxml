@@ -29,38 +29,14 @@
 
   <view wx:if="{{isAdmin}}" class="surface profile-panel management-panel">
     <view class="section-head management-heading">
-      <view>
-        <text class="section-title">用户管理</text>
-        <text class="section-description">创建账号、调整角色或删除用户。</text>
-      </view>
+      <text class="section-title">用户管理</text>
+      <text class="section-description">创建账号，或集中调整角色和删除用户。</text>
+    </view>
+    <view class="management-buttons">
       <button class="create-user-button" bindtap="openCreateDialog">创建用户</button>
+      <button class="edit-user-button" disabled="{{isUsersLoading}}" bindtap="openEditDialog">编辑用户</button>
     </view>
 
-    <view wx:if="{{isUsersLoading}}" class="placeholder">
-      <text class="placeholder-text">正在加载用户…</text>
-    </view>
-    <view wx:elif="{{users.length}}" class="user-list">
-      <view wx:for="{{users}}" wx:key="id" class="user-row">
-        <view class="user-summary">
-          <text class="user-name">{{item.username}}</text>
-          <text class="role-chip {{item.role === 'ADMIN' ? 'role-admin' : 'role-user'}}">{{item.role === 'ADMIN' ? '管理员' : '普通用户'}}</text>
-        </view>
-        <view class="user-actions">
-          <button
-            class="role-button"
-            data-id="{{item.id}}"
-            data-role="{{item.role === 'ADMIN' ? 'USER' : 'ADMIN'}}"
-            bindtap="changeUserRole"
-            loading="{{operatingUserId === item.id}}"
-          >{{item.role === 'ADMIN' ? '设为用户' : '设为管理员'}}</button>
-          <button class="delete-user-button" data-id="{{item.id}}" data-username="{{item.username}}" bindtap="deleteManagedUser">删除</button>
-        </view>
-      </view>
-    </view>
-    <view wx:else class="placeholder">
-      <text class="placeholder-title">暂无用户</text>
-      <text class="placeholder-text">点击“创建用户”添加第一个账号。</text>
-    </view>
   </view>
 
   <view class="surface profile-panel security-panel">
@@ -98,6 +74,35 @@
         <view class="dialog-actions">
           <button class="cancel-button" bindtap="closeCreateDialog">取消</button>
           <button class="confirm-button" loading="{{operatingUserId === 'create'}}" bindtap="submitCreateUser">创建</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{isEditDialogVisible}}" class="dialog-mask" bindtap="closeEditDialog">
+    <view class="user-dialog" catchtap="stopDialogTap">
+      <view class="dialog-header">
+        <text class="section-title">编辑用户</text>
+        <button class="dialog-close" bindtap="closeEditDialog" aria-label="关闭">×</button>
+      </view>
+      <view class="form-body dialog-body">
+        <view class="field-group">
+          <text class="field-label">操作用户</text>
+          <picker range="{{users}}" range-key="username" value="{{editUserIndex}}" bindchange="onEditUserChange">
+            <view class="user-picker-value">{{editUsername}}</view>
+          </picker>
+        </view>
+        <view class="field-group">
+          <text class="field-label">角色</text>
+          <view class="role-select">
+            <button class="role-option {{editRole === 'USER' ? 'role-option-active' : ''}}" data-role="USER" bindtap="selectEditRole">普通用户</button>
+            <button class="role-option {{editRole === 'ADMIN' ? 'role-option-active' : ''}}" data-role="ADMIN" bindtap="selectEditRole">管理员</button>
+          </view>
+        </view>
+        <view class="dialog-actions edit-dialog-actions">
+          <button class="delete-user-button" data-id="{{editUserId}}" data-username="{{editUsername}}" bindtap="deleteManagedUser">删除用户</button>
+          <button class="cancel-button" bindtap="closeEditDialog">取消</button>
+          <button class="confirm-button" loading="{{operatingUserId === editUserId}}" bindtap="submitEditUser">保存</button>
         </view>
       </view>
     </view>

@@ -24,6 +24,8 @@ public class PersonalTodo {
   private LocalDate dueDate;
   @Column(name = "personal_note", nullable = false, length = 300)
   private String personalNote;
+  @Column(name = "completed_at")
+  private LocalDate completedAt;
   @CreationTimestamp @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
   @UpdateTimestamp @Column(name = "updated_at", nullable = false)
@@ -43,4 +45,7 @@ public class PersonalTodo {
   public Long getAssigneeId() { return assigneeId; }
   public LocalDate getDueDate() { return dueDate; }
   public String getPersonalNote() { return personalNote; }
+  public LocalDate getCompletedAt() { return completedAt; }
+  public boolean isCompleted() { return completedAt != null; }
+  public void complete(LocalDate completedAt) { this.completedAt = completedAt; }
 }

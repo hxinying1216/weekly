@@ -41,6 +41,22 @@ public class UserManagementService {
     return ManagedUserResponse.from(user);
   }
 
+  public ManagedUserResponse update(String authorization, Long userId, ManagedUserUpdateRequest request) {
+    requireAdmin(authorization);
+    User user = userById(userId);
+    String username = request.username().trim();
+    if (!username.equals(user.getUsername()) && users.existsByUsername(username)) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "用户名已被注册");
+    }
+
+    user.setUsername(username);
+    user.setRole(request.role());
+    if (!request.password().isEmpty()) {
+      user.setPasswordHash(passwordEncoder.encode(request.password()));
+    }
+    return ManagedUserResponse.from(users.save(user));
+  }
+
   public ManagedUserResponse updateRole(String authorization, Long userId, UserRoleUpdateRequest request) {
     requireAdmin(authorization);
     User user = userById(userId);

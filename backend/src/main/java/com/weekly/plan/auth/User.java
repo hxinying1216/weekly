@@ -49,5 +49,7 @@ public class User {
   public String getUsername() { return username; }
   public String getPasswordHash() { return passwordHash; }
   public UserRole getRole() { return role; }
+  public void setUsername(String username) { this.username = username; }
+  public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
   public void setRole(UserRole role) { this.role = role; }
 }

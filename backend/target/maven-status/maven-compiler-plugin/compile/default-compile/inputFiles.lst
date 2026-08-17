@@ -5,6 +5,7 @@ D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\AuthService.j
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\CredentialsRequest.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\ManagedUserCreateRequest.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\ManagedUserResponse.java
+D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\ManagedUserUpdateRequest.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\SessionService.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\User.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\auth\UserManagementController.java
@@ -19,6 +20,8 @@ D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\project\ProjectRep
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\project\ProjectRequest.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\project\ProjectResponse.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\project\ProjectService.java
+D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\todo\ArchiveProjectResponse.java
+D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\todo\ArchiveSubtaskResponse.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\todo\AvailableProjectResponse.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\todo\PersonalTodo.java
 D:\计划管理2\weekly\backend\src\main\java\com\weekly\plan\todo\PersonalTodoController.java

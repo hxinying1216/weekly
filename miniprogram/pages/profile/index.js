@@ -26,9 +26,14 @@ Page({
     users: [],
     isUsersLoading: false,
     isCreateDialogVisible: false,
+    isEditDialogVisible: false,
     createUsername: '',
     createPassword: '',
     createRole: 'USER',
+    editUserId: null,
+    editUserIndex: 0,
+    editUsername: '',
+    editRole: 'USER',
     operatingUserId: null,
     pageTransition: ''
   },
@@ -105,6 +110,75 @@ Page({
     this.setData({ createRole: event.currentTarget.dataset.role })
   },
 
+  openEditDialog() {
+    const user = this.data.users[0]
+    if (!user) {
+      wx.showToast({ title: '暂无可编辑用户', icon: 'none' })
+      return
+    }
+    this.setData({
+      isEditDialogVisible: true,
+      editUserIndex: 0,
+      editUserId: user.id,
+      editUsername: user.username,
+      editRole: user.role
+    })
+  },
+
+  onEditUserChange(event) {
+    const editUserIndex = Number(event.detail.value)
+    const user = this.data.users[editUserIndex]
+    if (!user) return
+    this.setData({
+      editUserIndex,
+      editUserId: user.id,
+      editUsername: user.username,
+      editRole: user.role
+    })
+  },
+
+  closeEditDialog() {
+    if (this.data.operatingUserId !== this.data.editUserId) {
+      this.setData({ isEditDialogVisible: false })
+    }
+  },
+
+  selectEditRole(event) {
+    this.setData({ editRole: event.currentTarget.dataset.role })
+  },
+
+  async submitEditUser() {
+    const id = this.data.editUserId
+    if (!id) return
+
+    this.setData({ operatingUserId: id })
+    try {
+      const user = await updateUserRole(id, this.data.editRole)
+      const session = getSession()
+      if (session && user.id === session.id) {
+        if (user.role === 'USER') {
+          clearSession()
+          wx.showToast({ title: '已设为普通用户，请重新登录', icon: 'none' })
+          setTimeout(() => wx.reLaunch({ url: '/pages/auth/index' }), 800)
+          return
+        }
+        saveSession({ ...session, role: user.role })
+        this.setData({
+          isAdmin: true,
+          userRole: '管理员',
+          accessScope: accessScopeFor(user.role)
+        })
+      }
+      this.setData({ isEditDialogVisible: false })
+      wx.showToast({ title: '角色已更新', icon: 'success' })
+      await this.loadUsers()
+    } catch (error) {
+      wx.showToast({ title: error.message, icon: 'none' })
+    } finally {
+      this.setData({ operatingUserId: null })
+    }
+  },
+
   async submitCreateUser() {
     const username = normalize(this.data.createUsername)
     const password = this.data.createPassword
@@ -119,36 +193,6 @@ Page({
       this.closeCreateDialog()
       wx.showToast({ title: '用户已创建', icon: 'success' })
       await this.loadUsers()
-    } catch (error) {
-      wx.showToast({ title: error.message, icon: 'none' })
-    } finally {
-      this.setData({ operatingUserId: null })
-    }
-  },
-
-  async changeUserRole(event) {
-    const { id, role } = event.currentTarget.dataset
-    this.setData({ operatingUserId: id })
-    try {
-      const user = await updateUserRole(id, role)
-      const session = getSession()
-      if (session && user.id === session.id) {
-        if (user.role === 'USER') {
-          clearSession()
-          wx.showToast({ title: '已设为普通用户，请重新登录', icon: 'none' })
-          setTimeout(() => wx.reLaunch({ url: '/pages/auth/index' }), 800)
-          return
-        }
-
-        saveSession({ ...session, role: user.role })
-        this.setData({
-          isAdmin: true,
-          userRole: '管理员',
-          accessScope: accessScopeFor(user.role)
-        })
-      }
-      wx.showToast({ title: '角色已更新', icon: 'success' })
-      if (this.data.isAdmin) await this.loadUsers()
     } catch (error) {
       wx.showToast({ title: error.message, icon: 'none' })
     } finally {
@@ -173,6 +217,7 @@ Page({
             return
           }
           wx.showToast({ title: '用户已删除', icon: 'success' })
+          this.setData({ isEditDialogVisible: false })
           await this.loadUsers()
         } catch (error) {
           wx.showToast({ title: error.message, icon: 'none' })

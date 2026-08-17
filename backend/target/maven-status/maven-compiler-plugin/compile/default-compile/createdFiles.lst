@@ -10,10 +10,12 @@ com\weekly\plan\auth\SessionService.class
 com\weekly\plan\project\ProjectController.class
 com\weekly\plan\project\ProjectRequest.class
 com\weekly\plan\auth\ManagedUserCreateRequest.class
+com\weekly\plan\auth\ManagedUserUpdateRequest.class
 com\weekly\plan\todo\AvailableProjectResponse.class
 com\weekly\plan\todo\PersonalTodoService.class
 com\weekly\plan\auth\ManagedUserResponse.class
 com\weekly\plan\project\ProjectRepository.class
+com\weekly\plan\todo\ArchiveSubtaskResponse.class
 com\weekly\plan\todo\PersonalTodoRepository.class
 com\weekly\plan\todo\PersonalTodoController.class
 com\weekly\plan\todo\TeamProjectResponse.class
@@ -24,6 +26,7 @@ com\weekly\plan\auth\User.class
 com\weekly\plan\todo\PersonalTodo.class
 com\weekly\plan\auth\WebConfig.class
 com\weekly\plan\todo\PersonalTodoRequest.class
+com\weekly\plan\todo\ArchiveProjectResponse.class
 com\weekly\plan\auth\AuthController.class
 com\weekly\plan\todo\PersonalTodoResponse.class
 com\weekly\plan\auth\UserRole.class

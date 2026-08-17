@@ -30,12 +30,18 @@
 
     <view wx:elif="{{visibleTasks.length}}" class="task-list">
       <view wx:for="{{visibleTasks}}" wx:key="id" class="task-row">
-        <view class="task-content">
-          <text class="task-title">{{item.title}}</text>
-          <text class="task-note">{{item.note}}</text>
-          <text class="task-assignee">接取人：{{item.assignee}}</text>
+        <text class="task-title">{{item.title}}</text>
+        <view class="task-details">
+          <view class="task-content">
+            <text class="task-note">{{item.mainNote}}</text>
+            <text class="task-note">{{item.childNote}}</text>
+          </view>
+          <view class="task-actions">
+            <text class="task-assignee">接取人：{{item.assignee}}</text>
+            <text class="task-date">截止：{{item.dateLabel}}</text>
+            <button class="complete-button" loading="{{completingId === item.id}}" disabled="{{completingId !== null}}" data-id="{{item.id}}" bindtap="completeTask">完成</button>
+          </view>
         </view>
-        <text class="task-date">截止：{{item.dateLabel}}</text>
       </view>
     </view>
 

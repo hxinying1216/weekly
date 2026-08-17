@@ -37,6 +37,15 @@ public class UserManagementController {
     return users.create(authorization, request);
   }
 
+  @PatchMapping("/{userId}")
+  public ManagedUserResponse update(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @PathVariable Long userId,
+      @Valid @RequestBody ManagedUserUpdateRequest request
+  ) {
+    return users.update(authorization, userId, request);
+  }
+
   @PatchMapping("/{userId}/role")
   public ManagedUserResponse updateRole(
       @RequestHeader(value = "Authorization", required = false) String authorization,

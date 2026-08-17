@@ -31,6 +31,12 @@ const authenticate = (action, credentials) => request({
 
 const listUsers = () => request({ url: '/api/users', withSession: true })
 const createUser = (user) => request({ url: '/api/users', method: 'POST', data: user, withSession: true })
+const updateUser = (id, user) => request({
+  url: `/api/users/${id}`,
+  method: 'PATCH',
+  data: user,
+  withSession: true
+})
 const updateUserRole = (id, role) => request({
   url: `/api/users/${id}/role`,
   method: 'PATCH',
@@ -54,6 +60,16 @@ const createPersonalTodo = (todo) => request({
   withSession: true
 })
 
+const completePersonalTodo = (id) => request({
+  url: `/api/personal-todos/${id}/complete`,
+  method: 'PATCH',
+  withSession: true
+})
+const listArchiveTodos = ({ startDate, endDate }) => request({
+  url: `/api/personal-todos/archive?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`,
+  withSession: true
+})
+
 const listTeamAssignees = () => request({ url: '/api/personal-todos/assignees', withSession: true })
 const listTeamTodos = ({ startDate, endDate, assigneeId }) => {
   const assigneeQuery = assigneeId ? `&assigneeId=${encodeURIComponent(assigneeId)}` : ''
@@ -67,6 +83,7 @@ module.exports = {
   authenticate,
   listUsers,
   createUser,
+  updateUser,
   updateUserRole,
   deleteUser,
   listProjects,
@@ -75,6 +92,8 @@ module.exports = {
   listAvailableProjects,
   listPersonalTodos,
   createPersonalTodo,
+  completePersonalTodo,
+  listArchiveTodos,
   listTeamAssignees,
   listTeamTodos
 }

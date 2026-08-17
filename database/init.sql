@@ -35,11 +35,13 @@ CREATE TABLE IF NOT EXISTS personal_todos (
   assignee_id BIGINT NOT NULL,
   due_date DATE NOT NULL,
   personal_note VARCHAR(300) NOT NULL,
+  completed_at DATE NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_personal_todos_assignee_due_date (assignee_id, due_date),
   KEY idx_personal_todos_due_date (due_date),
+  KEY idx_personal_todos_completed_at (completed_at),
   KEY idx_personal_todos_project_id (project_id),
   CONSTRAINT fk_personal_todos_project FOREIGN KEY (project_id) REFERENCES projects(id),
   CONSTRAINT fk_personal_todos_assignee FOREIGN KEY (assignee_id) REFERENCES users(id)
