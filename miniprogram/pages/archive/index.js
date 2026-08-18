@@ -24,7 +24,9 @@ const rangeState = () => {
     startDateLabel: chineseDate(current),
     endDateLabel: chineseDate(current),
     projects: [],
-    subtaskCount: 0,
+    selectedProject: null,
+    isProjectDialogVisible: false,
+    subtaskCountText: '0',
     isUserFilterVisible: false,
     members: [],
     memberNames: [],
@@ -43,6 +45,7 @@ const rangeUpdate = (startDate, endDate) => ({
 
 const projectOf = (project) => ({
   ...project,
+  subtaskCountText: String(project.subtasks.length),
   subtasks: project.subtasks.map((subtask) => ({
     ...subtask,
     completedDateLabel: chineseDate(subtask.completedAt)
@@ -86,14 +89,19 @@ Page({
   async loadArchive() {
     this.setData({ isLoading: true })
     try {
-      const projects = (await listArchiveTodos({
+      const projects = await listArchiveTodos({
         startDate: this.data.startDate,
         endDate: this.data.endDate,
         assigneeId: this.data.members[this.data.selectedMemberIndex]?.id
-      })).map(projectOf)
+      })
+      const normalizedProjects = projects.map(projectOf)
+      const subtaskCountText = String(projects.reduce(
+        (count, project) => count + project.subtasks.length,
+        0
+      ))
       this.setData({
-        projects,
-        subtaskCount: projects.reduce((count, project) => count + project.subtasks.length, 0)
+        projects: normalizedProjects,
+        subtaskCountText
       })
     } catch (error) {
       wx.showToast({ title: messageOf(error), icon: 'none' })
@@ -101,6 +109,17 @@ Page({
       this.setData({ isLoading: false })
     }
   },
+
+  openProjectDialog(event) {
+    const project = this.data.projects.find((item) => item.id === Number(event.currentTarget.dataset.id))
+    if (project) this.setData({ selectedProject: project, isProjectDialogVisible: true })
+  },
+
+  closeProjectDialog() {
+    this.setData({ isProjectDialogVisible: false, selectedProject: null })
+  },
+
+  stopDialogTap() {},
 
   async onUserChange(event) {
     const selectedMemberIndex = Number(event.detail.value)

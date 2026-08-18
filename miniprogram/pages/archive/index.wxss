@@ -115,8 +115,31 @@
   background: #ffffff;
 }
 
+.project-card:active {
+  background: #f7f9fc;
+}
+
 .project-card + .project-card {
   margin-top: 20rpx;
+}
+
+.project-title-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.project-title-line .task-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.project-count {
+  flex: none;
+  color: #2563eb;
+  font-size: 22rpx;
+  font-weight: 600;
 }
 
 .task-title,
@@ -167,6 +190,71 @@
   color: #8a94a6;
   font-size: 22rpx;
   line-height: 1.5;
+}
+
+.dialog-mask {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 36rpx;
+  background: rgba(23, 32, 51, 0.46);
+}
+
+.project-dialog {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 640rpx;
+  max-height: 80vh;
+  padding: 32rpx;
+  overflow-y: auto;
+  border-radius: 20rpx;
+  background: #ffffff;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  min-height: 56rpx;
+  padding-right: 64rpx;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 56rpx;
+  height: 56rpx;
+  border: 1rpx solid #cfe0ff;
+  border-radius: 50%;
+  background: #eef4ff;
+  color: #2563eb;
+  font-size: 34rpx;
+  line-height: 1;
+}
+
+.dialog-project-note {
+  display: block;
+  margin-top: 16rpx;
+  color: #697386;
+  font-size: 24rpx;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.dialog-subtask-list {
+  margin-top: 24rpx;
 }
 
 @media (min-width: 960px) {

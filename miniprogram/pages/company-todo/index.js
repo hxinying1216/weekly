@@ -10,6 +10,7 @@ const chineseDate = (value) => {
 const messageOf = (error) => error?.message || '请求失败，请稍后重试'
 const standardizeProject = (project) => ({
   ...project,
+  subtaskCountText: String(project.subtasks.length),
   subtasks: project.subtasks.map((subtask) => ({
     ...subtask,
     dateLabel: chineseDate(subtask.dueDate)
@@ -48,6 +49,9 @@ Page({
     selectedMemberIndex: 0,
     selectedMemberName: '全部成员',
     projects: [],
+    totalSubtaskCountText: '0',
+    selectedProject: null,
+    isProjectDialogVisible: false,
     isLoading: false,
     pageTransition: ''
   },
@@ -87,7 +91,15 @@ Page({
         endDate: this.data.endDate,
         assigneeId
       })
-      this.setData({ projects: projects.map(standardizeProject) })
+      const normalizedProjects = projects.map(standardizeProject)
+      const totalSubtaskCountText = String(projects.reduce(
+        (count, project) => count + project.subtasks.length,
+        0
+      ))
+      this.setData({
+        projects: normalizedProjects,
+        totalSubtaskCountText
+      })
     } catch (error) {
       wx.showToast({ title: messageOf(error), icon: 'none' })
     } finally {
@@ -108,6 +120,17 @@ Page({
     this.setData(updateRange(startDate, endDate))
     await this.loadTasks()
   },
+
+  openProjectDialog(event) {
+    const project = this.data.projects.find((item) => item.id === Number(event.currentTarget.dataset.id))
+    if (project) this.setData({ selectedProject: project, isProjectDialogVisible: true })
+  },
+
+  closeProjectDialog() {
+    this.setData({ isProjectDialogVisible: false, selectedProject: null })
+  },
+
+  stopDialogTap() {},
 
   async onUserChange(event) {
     const selectedMemberIndex = Number(event.detail.value)

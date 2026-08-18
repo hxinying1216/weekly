@@ -1,7 +1,7 @@
 const normalize = (value) => value.trim()
 const { enterPage, transitionToTab } = require('../../utils/page-transition')
 const { clearSession, getSession, saveSession } = require('../../utils/session')
-const { createUser, deleteUser, listUsers, updateUserRole } = require('../../utils/api')
+const { createUser, deleteUser, getProfile, listUsers, lookupPhone, updateProfile, updateUserRole } = require('../../utils/api')
 
 const isPhone = (value) => /^1[3-9]\d{9}$/.test(value)
 const accessScopeFor = (role) => (
@@ -14,12 +14,13 @@ Page({
   data: {
     profile: {
       nickname: '团队成员',
-      phone: '13800000000',
-      avatarUrl: '',
-      avatarInitial: '团'
+      phone: '13800000000'
     },
     nicknameInput: '团队成员',
     phoneInput: '13800000000',
+    phoneQueryUsername: '',
+    phoneQueryResult: '',
+    isPhoneQuerying: false,
     userRole: '普通用户',
     accessScope: '可使用个人待办、团队大板与任务归档',
     isAdmin: false,
@@ -38,7 +39,7 @@ Page({
     pageTransition: ''
   },
 
-  onShow() {
+  async onShow() {
     if (!enterPage(this)) return
 
     const session = getSession()
@@ -47,12 +48,22 @@ Page({
     const isAdmin = session.role === 'ADMIN'
     this.setData({
       'profile.nickname': session.username,
-      'profile.avatarInitial': session.username.slice(0, 1),
       nicknameInput: session.username,
       userRole: isAdmin ? '管理员' : '普通用户',
       accessScope: accessScopeFor(session.role),
       isAdmin
     })
+    try {
+      const profile = await getProfile()
+      this.setData({
+        'profile.nickname': profile.username,
+        'profile.phone': profile.phone || '',
+        nicknameInput: profile.username,
+        phoneInput: profile.phone || ''
+      })
+    } catch (error) {
+      wx.showToast({ title: error.message, icon: 'none' })
+    }
     if (isAdmin) this.loadUsers()
   },
 
@@ -65,19 +76,23 @@ Page({
     this.setData({ [field]: event.detail.value })
   },
 
-  onChooseAvatar({ detail = {} }) {
-    const { avatarUrl } = detail
-
-    if (!avatarUrl) {
-      wx.showToast({ title: '未获取到微信头像', icon: 'none' })
+  async lookupPhone() {
+    const username = normalize(this.data.phoneQueryUsername)
+    if (!username) {
+      wx.showToast({ title: '请输入昵称', icon: 'none' })
       return
     }
 
-    this.setData({ 'profile.avatarUrl': avatarUrl })
-  },
-
-  onAvatarLoadError() {
-    wx.showToast({ title: '头像加载失败，请重新选择', icon: 'none' })
+    this.setData({ isPhoneQuerying: true, phoneQueryResult: '' })
+    try {
+      const result = await lookupPhone(username)
+      this.setData({ phoneQueryResult: result.phone || '对方未登记手机号' })
+    } catch (error) {
+      this.setData({ phoneQueryResult: '' })
+      wx.showToast({ title: error.message, icon: 'none' })
+    } finally {
+      this.setData({ isPhoneQuerying: false })
+    }
   },
 
   async loadUsers() {
@@ -233,7 +248,7 @@ Page({
     wx.reLaunch({ url: '/pages/auth/index' })
   },
 
-  saveProfile() {
+  async saveProfile() {
     const nickname = normalize(this.data.nicknameInput)
     const phone = normalize(this.data.phoneInput)
 
@@ -247,16 +262,22 @@ Page({
       return
     }
 
-    this.setData({
-      profile: {
-        ...this.data.profile,
-        nickname,
-        phone,
-        avatarInitial: nickname.slice(0, 1)
-      },
-      nicknameInput: nickname,
-      phoneInput: phone
-    })
-    wx.showToast({ title: '资料已更新', icon: 'success' })
+    try {
+      const profile = await updateProfile({ username: nickname, phone })
+      const session = getSession()
+      if (session) saveSession({ ...session, username: profile.username })
+      this.setData({
+        profile: {
+          ...this.data.profile,
+          nickname: profile.username,
+          phone: profile.phone
+        },
+        nicknameInput: profile.username,
+        phoneInput: profile.phone
+      })
+      wx.showToast({ title: '资料已更新，登录用户名已同步', icon: 'success' })
+    } catch (error) {
+      wx.showToast({ title: error.message, icon: 'none' })
+    }
   }
 })

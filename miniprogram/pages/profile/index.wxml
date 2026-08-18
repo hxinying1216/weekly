@@ -7,14 +7,6 @@
       </view>
     </view>
     <view class="form-body">
-      <view class="field-group avatar-field">
-        <text class="field-label">头像</text>
-        <view class="avatar-frame">
-          <image wx:if="{{profile.avatarUrl}}" class="avatar-image" src="{{profile.avatarUrl}}" mode="aspectFill" binderror="onAvatarLoadError" />
-          <text wx:else class="avatar-initial">{{profile.avatarInitial}}</text>
-          <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar" aria-label="选择微信头像"></button>
-        </view>
-      </view>
       <view class="field-group">
         <text class="field-label">昵称</text>
         <input class="field-input" value="{{nicknameInput}}" maxlength="20" data-field="nicknameInput" bindinput="onInput" />
@@ -25,6 +17,14 @@
       </view>
       <button class="primary-button" bindtap="saveProfile">保存资料</button>
     </view>
+  </view>
+
+  <view class="surface profile-panel phone-lookup-panel">
+    <view class="phone-lookup-row">
+      <input class="phone-lookup-input" value="{{phoneQueryUsername}}" data-field="phoneQueryUsername" bindinput="onInput" placeholder="输入昵称查询手机号" maxlength="32" />
+      <button class="phone-lookup-button" loading="{{isPhoneQuerying}}" bindtap="lookupPhone">查询</button>
+    </view>
+    <text wx:if="{{phoneQueryResult}}" class="phone-lookup-result">手机号：{{phoneQueryResult}}</text>
   </view>
 
   <view wx:if="{{isAdmin}}" class="surface profile-panel management-panel">

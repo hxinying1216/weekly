@@ -29,6 +29,12 @@ const authenticate = (action, credentials) => request({
   data: credentials
 })
 
+const getProfile = () => request({ url: '/api/profile', withSession: true })
+const updateProfile = (profile) => request({ url: '/api/profile', method: 'PATCH', data: profile, withSession: true })
+const lookupPhone = (username) => request({
+  url: `/api/profile/phone?username=${encodeURIComponent(username)}`,
+  withSession: true
+})
 const listUsers = () => request({ url: '/api/users', withSession: true })
 const createUser = (user) => request({ url: '/api/users', method: 'POST', data: user, withSession: true })
 const updateUser = (id, user) => request({
@@ -84,6 +90,9 @@ const listTeamTodos = ({ startDate, endDate, assigneeId }) => {
 
 module.exports = {
   authenticate,
+  getProfile,
+  updateProfile,
+  lookupPhone,
   listUsers,
   createUser,
   updateUser,

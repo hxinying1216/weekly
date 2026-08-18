@@ -5,7 +5,7 @@
         <text class="section-title">任务归档</text>
         <text class="archive-hint">按完成日期查询</text>
       </view>
-      <text class="archive-count">{{subtaskCount}} 条</text>
+      <text class="archive-count">共 {{subtaskCountText}} 项</text>
     </view>
 
     <view class="archive-filters">
@@ -37,24 +37,37 @@
     </view>
 
     <view wx:elif="{{projects.length}}" class="project-list">
-      <view wx:for="{{projects}}" wx:key="id" class="project-card">
-        <text class="task-title">{{item.title}}（创建人：{{item.creator}}）</text>
-        <text class="project-note">主备注：{{item.note}}</text>
-        <view class="subtask-list">
-          <view wx:for="{{item.subtasks}}" wx:key="id" class="subtask-unit">
-            <text class="subtask-note">子备注：{{item.note}}</text>
-            <view class="subtask-meta">
-              <text>接取人：{{item.assignee}}</text>
-              <text>完成：{{item.completedDateLabel}}</text>
-            </view>
-          </view>
+      <view wx:for="{{projects}}" wx:key="id" class="project-card" data-id="{{item.id}}" bindtap="openProjectDialog">
+        <view class="project-title-line">
+          <text class="task-title">{{item.title}}（创建人：{{item.creator}}）</text>
+          <text class="project-count">{{item.subtaskCountText}} 项</text>
         </view>
+        <text class="project-note">主备注：{{item.note}}</text>
       </view>
     </view>
 
     <view wx:else class="placeholder">
       <text class="placeholder-title">当前日期范围暂无归档任务</text>
       <text class="placeholder-text">完成任务后，会按完成日期显示在这里。</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isProjectDialogVisible}}" class="dialog-mask" bindtap="closeProjectDialog">
+    <view class="project-dialog" catchtap="stopDialogTap">
+      <view class="dialog-header">
+        <text class="section-title">{{selectedProject.title}}</text>
+        <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeProjectDialog">×</view>
+      </view>
+      <text class="dialog-project-note">主备注：{{selectedProject.note}}</text>
+      <view class="dialog-subtask-list">
+        <view wx:for="{{selectedProject.subtasks}}" wx:key="id" class="subtask-unit">
+          <text class="subtask-note">子备注：{{item.note}}</text>
+          <view class="subtask-meta">
+            <text>接取人：{{item.assignee}}</text>
+            <text>完成：{{item.completedDateLabel}}</text>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </view>
