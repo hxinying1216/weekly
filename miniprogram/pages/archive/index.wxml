@@ -42,7 +42,7 @@
           <text class="task-title">{{item.title}}（创建人：{{item.creator}}）</text>
           <text class="project-count">{{item.subtaskCountText}} 项</text>
         </view>
-        <text class="project-note">主备注：{{item.note}}</text>
+        <text class="project-note">项目备注：{{item.note}}</text>
       </view>
     </view>
 
@@ -58,10 +58,10 @@
         <text class="section-title">{{selectedProject.title}}</text>
         <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeProjectDialog">×</view>
       </view>
-      <text class="dialog-project-note">主备注：{{selectedProject.note}}</text>
+      <text class="dialog-project-note">项目备注：{{selectedProject.note}}</text>
       <view class="dialog-subtask-list">
         <view wx:for="{{selectedProject.subtasks}}" wx:key="id" class="subtask-unit">
-          <text class="subtask-note">子备注：{{item.note}}</text>
+          <text class="subtask-note">个人备注：{{item.note}}</text>
           <view class="subtask-meta">
             <text>接取人：{{item.assignee}}</text>
             <text>完成：{{item.completedDateLabel}}</text>

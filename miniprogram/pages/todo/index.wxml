@@ -2,7 +2,7 @@
   <view class="surface focus-panel">
     <view class="focus-header">
       <view class="focus-title-area">
-        <text class="section-title">个人待办任务</text>
+        <text class="section-title">个人任务</text>
         <view class="inline-range-selectors">
           <picker mode="date" value="{{startDate}}" start="{{minimumDate}}" end="{{maximumDate}}" bindchange="onStartDateChange">
             <view class="inline-range-field">
@@ -25,7 +25,7 @@
     </view>
 
     <view wx:if="{{isLoading}}" class="placeholder">
-      <text class="placeholder-text">正在加载个人待办…</text>
+      <text class="placeholder-text">正在加载个人任务…</text>
     </view>
 
     <view wx:elif="{{visibleTasks.length}}" class="task-list">
@@ -57,7 +57,7 @@
   <view wx:if="{{isAddDialogVisible}}" class="dialog-mask" bindtap="closeAddDialog">
     <view class="add-dialog" catchtap="stopDialogTap">
       <view class="dialog-header">
-        <text class="section-title">{{editingId ? '修改个人待办' : '添加个人待办'}}</text>
+        <text class="section-title">{{editingId ? '修改个人任务' : '添加个人任务'}}</text>
         <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeAddDialog">×</view>
       </view>
       <view class="field-group">

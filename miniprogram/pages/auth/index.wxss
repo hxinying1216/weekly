@@ -9,15 +9,6 @@
   margin-bottom: 56rpx;
 }
 
-.brand-title {
-  display: block;
-  margin-top: 12rpx;
-  color: #172033;
-  font-size: 56rpx;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
 .brand-description {
   display: block;
   margin-top: 16rpx;
@@ -32,6 +23,15 @@
   border-radius: 24rpx;
   background: #ffffff;
   box-shadow: 0 20rpx 56rpx rgba(37, 99, 235, 0.08);
+}
+
+.auth-name {
+  display: block;
+  padding: 28rpx 32rpx 8rpx;
+  color: #172033;
+  font-size: 36rpx;
+  font-weight: 700;
+  text-align: center;
 }
 
 .mode-tabs {
@@ -57,13 +57,6 @@
 
 .form-body {
   padding: 36rpx 32rpx 40rpx;
-}
-
-.form-title {
-  display: block;
-  color: #172033;
-  font-size: 34rpx;
-  font-weight: 700;
 }
 
 .form-description, .role-tip {

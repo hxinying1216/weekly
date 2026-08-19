@@ -211,7 +211,7 @@ public class PersonalTodoService {
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "接取人不存在"));
     Project project = projects.findById(todo.getProjectId())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "主任务不存在"));
-    String note = "主备注：" + project.getNote() + "\n子备注：" + todo.getPersonalNote();
+    String note = "项目备注：" + project.getNote() + "\n个人备注：" + todo.getPersonalNote();
     return new PersonalTodoResponse(
         todo.getId(), todo.getProjectId(), todo.getAssigneeId(), project.getTitle(), note,
         todo.getDueDate(), assignee.getUsername());

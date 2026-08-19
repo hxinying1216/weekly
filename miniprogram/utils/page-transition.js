@@ -29,7 +29,7 @@ const enterPage = (page) => {
   if (!ensureAuthenticated()) return false
 
   if (adminOnlyRoutes.has(page.route) && !isAdmin()) {
-    wx.showToast({ title: '任务管理仅限管理员使用', icon: 'none' })
+    wx.showToast({ title: '项目管理仅限管理员使用', icon: 'none' })
     wx.switchTab({ url: '/pages/todo/index' })
     return false
   }

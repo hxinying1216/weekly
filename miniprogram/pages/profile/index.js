@@ -6,8 +6,8 @@ const { createUser, deleteUser, getProfile, listUsers, lookupPhone, updateProfil
 const isPhone = (value) => /^1[3-9]\d{9}$/.test(value)
 const accessScopeFor = (role) => (
   role === 'ADMIN'
-    ? '可使用全部功能，包括任务管理和用户管理'
-    : '可使用个人待办、团队大板与任务归档'
+    ? '可使用全部功能，包括项目管理和用户管理'
+    : '可使用个人任务、团队大板与任务归档'
 )
 
 Page({
@@ -23,7 +23,7 @@ Page({
     isProfileEditorVisible: false,
     isPhoneQuerying: false,
     userRole: '普通用户',
-    accessScope: '可使用个人待办、团队大板与任务归档',
+    accessScope: '可使用个人任务、团队大板与任务归档',
     isAdmin: false,
     users: [],
     isUsersLoading: false,

@@ -20,8 +20,8 @@
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
-      { "pagePath": "pages/task-management/index", "text": "任务管理" },
-      { "pagePath": "pages/todo/index", "text": "个人待办" },
+      { "pagePath": "pages/task-management/index", "text": "项目管理" },
+      { "pagePath": "pages/todo/index", "text": "个人任务" },
       { "pagePath": "pages/company-todo/index", "text": "团队大板" },
       { "pagePath": "pages/archive/index", "text": "任务归档" },
       { "pagePath": "pages/profile/index", "text": "个人信息" }

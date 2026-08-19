@@ -1,18 +1,17 @@
 <view class="auth-page">
   <view class="brand-block">
     <text class="eyebrow">WEEKLY PLAN</text>
-    <text class="brand-title">让计划持续推进</text>
     <text class="brand-description">使用账号登录，统一管理个人与团队计划。</text>
   </view>
 
   <view class="auth-card">
+    <text class="auth-name">项目计划管理</text>
     <view class="mode-tabs" role="tablist">
       <view class="mode-tab {{mode === 'login' ? 'is-active' : ''}}" data-mode="login" bindtap="switchMode">登录</view>
       <view class="mode-tab {{mode === 'register' ? 'is-active' : ''}}" data-mode="register" bindtap="switchMode">注册</view>
     </view>
 
     <view class="form-body">
-      <text class="form-title">{{mode === 'login' ? '欢迎回来' : '创建账号'}}</text>
       <text class="form-description">{{mode === 'login' ? '请输入账号信息以继续。' : '注册后将自动成为普通用户。'}}</text>
 
       <view class="field-group">

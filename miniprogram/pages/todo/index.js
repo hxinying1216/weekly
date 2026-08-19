@@ -164,7 +164,7 @@ Page({
       isAddDialogVisible: true,
       editingId: id,
       draftProjectIndex: projectIndex,
-      draftNote: task.childNote.replace(/^子备注：/, '').trim(),
+      draftNote: task.childNote.replace(/^个人备注：/, '').trim(),
       draftDate: task.dueDate,
       draftDateLabel: chineseDate(task.dueDate)
     })
@@ -218,7 +218,7 @@ Page({
         draftNote: '',
         visibleTasks: tasks.filter((task) => task.date >= this.data.startDate && task.date <= this.data.endDate)
       })
-      wx.showToast({ title: editingId ? '任务已修改' : '个人待办已创建', icon: 'success' })
+      wx.showToast({ title: editingId ? '任务已修改' : '个人任务已创建', icon: 'success' })
     } catch (error) {
       wx.showToast({ title: messageOf(error), icon: 'none' })
     } finally {
