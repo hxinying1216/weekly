@@ -1,12 +1,14 @@
 <view class="container {{pageTransition}}">
   <view class="surface profile-panel">
-    <view class="section-head">
-      <view>
-        <text class="section-title">基本资料</text>
-        <text class="section-description">资料仅在当前会话中更新。</text>
+    <view class="section-head profile-heading">
+      <view class="profile-title-area">
+        <text class="section-title">基本资料修改</text>
+      </view>
+      <view class="profile-fold-button" role="button" aria-label="{{isProfileEditorVisible ? '收起基本资料修改' : '展开基本资料修改'}}" bindtap="toggleProfileEditor">
+        <view class="profile-fold-chevron {{isProfileEditorVisible ? 'profile-fold-chevron-open' : ''}}"></view>
       </view>
     </view>
-    <view class="form-body">
+    <view wx:if="{{isProfileEditorVisible}}" class="form-body">
       <view class="field-group">
         <text class="field-label">昵称</text>
         <input class="field-input" value="{{nicknameInput}}" maxlength="20" data-field="nicknameInput" bindinput="onInput" />

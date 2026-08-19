@@ -68,6 +68,15 @@ public class PersonalTodoController {
     return todos.list(authorization, startDate, endDate);
   }
 
+  @PatchMapping("/{todoId}")
+  public PersonalTodoResponse update(
+      @RequestHeader(value = "Authorization", required = false) String authorization,
+      @PathVariable Long todoId,
+      @Valid @RequestBody PersonalTodoRequest request
+  ) {
+    return todos.update(authorization, todoId, request);
+  }
+
   @PatchMapping("/{todoId}/complete")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void complete(

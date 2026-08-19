@@ -48,4 +48,9 @@ public class PersonalTodo {
   public LocalDate getCompletedAt() { return completedAt; }
   public boolean isCompleted() { return completedAt != null; }
   public void complete(LocalDate completedAt) { this.completedAt = completedAt; }
+  public void update(Long projectId, LocalDate dueDate, String personalNote) {
+    this.projectId = projectId;
+    this.dueDate = dueDate;
+    this.personalNote = personalNote;
+  }
 }

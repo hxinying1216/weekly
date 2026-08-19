@@ -20,6 +20,7 @@ Page({
     phoneInput: '13800000000',
     phoneQueryUsername: '',
     phoneQueryResult: '',
+    isProfileEditorVisible: false,
     isPhoneQuerying: false,
     userRole: '普通用户',
     accessScope: '可使用个人待办、团队大板与任务归档',
@@ -69,6 +70,10 @@ Page({
 
   transitionToTab(url) {
     return transitionToTab(url)
+  },
+
+  toggleProfileEditor() {
+    this.setData({ isProfileEditorVisible: !this.data.isProfileEditorVisible })
   },
 
   onInput(event) {
@@ -275,7 +280,7 @@ Page({
         nicknameInput: profile.username,
         phoneInput: profile.phone
       })
-      wx.showToast({ title: '资料已更新，登录用户名已同步', icon: 'success' })
+      wx.showToast({ title: '资料已更新', icon: 'success' })
     } catch (error) {
       wx.showToast({ title: error.message, icon: 'none' })
     }

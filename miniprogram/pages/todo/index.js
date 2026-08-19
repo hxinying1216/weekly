@@ -1,4 +1,4 @@
-const { listAvailableProjects, listPersonalTodos, createPersonalTodo, completePersonalTodo } = require('../../utils/api')
+const { listAvailableProjects, listPersonalTodos, createPersonalTodo, updatePersonalTodo, completePersonalTodo } = require('../../utils/api')
 const { enterPage, transitionToTab } = require('../../utils/page-transition')
 
 const pad = (value) => String(value).padStart(2, '0')
@@ -42,6 +42,7 @@ const rangeState = () => {
     isLoading: false,
     isSaving: false,
     completingId: null,
+    editingId: null,
     isAddDialogVisible: false,
     draftProjectIndex: 0,
     draftNote: '',
@@ -143,10 +144,29 @@ Page({
     }
     this.setData({
       isAddDialogVisible: true,
+      editingId: null,
       draftProjectIndex: 0,
       draftNote: '',
       draftDate: this.data.startDate,
       draftDateLabel: chineseDate(this.data.startDate)
+    })
+  },
+
+  openEditDialog(event) {
+    const id = Number(event.currentTarget.dataset.id)
+    const task = this.data.tasks.find((item) => item.id === id)
+    const projectIndex = this.data.projects.findIndex((project) => project.id === task?.projectId)
+    if (!task || projectIndex < 0) {
+      wx.showToast({ title: '任务信息已变化，请刷新后重试', icon: 'none' })
+      return
+    }
+    this.setData({
+      isAddDialogVisible: true,
+      editingId: id,
+      draftProjectIndex: projectIndex,
+      draftNote: task.childNote.replace(/^子备注：/, '').trim(),
+      draftDate: task.dueDate,
+      draftDateLabel: chineseDate(task.dueDate)
     })
   },
 
@@ -173,7 +193,7 @@ Page({
     const project = this.data.projects[this.data.draftProjectIndex]
     const note = this.data.draftNote.trim()
     if (!project) {
-      wx.showToast({ title: '请选择父任务', icon: 'none' })
+      wx.showToast({ title: '请选择主任务', icon: 'none' })
       return
     }
     if (!note) {
@@ -181,21 +201,24 @@ Page({
       return
     }
 
+    const editingId = this.data.editingId
     this.setData({ isSaving: true })
     try {
-      const todo = taskOf(await createPersonalTodo({
-        projectId: project.id,
-        dueDate: this.data.draftDate,
-        note
-      }))
-      const tasks = [...this.data.tasks, todo]
+      const payload = { projectId: project.id, dueDate: this.data.draftDate, note }
+      const updatedTodo = editingId
+        ? taskOf(await updatePersonalTodo(editingId, payload))
+        : taskOf(await createPersonalTodo(payload))
+      const tasks = editingId
+        ? this.data.tasks.map((task) => task.id === updatedTodo.id ? updatedTodo : task)
+        : [...this.data.tasks, updatedTodo]
       this.setData({
         tasks,
         isAddDialogVisible: false,
+        editingId: null,
         draftNote: '',
         visibleTasks: tasks.filter((task) => task.date >= this.data.startDate && task.date <= this.data.endDate)
       })
-      wx.showToast({ title: '个人待办已创建', icon: 'success' })
+      wx.showToast({ title: editingId ? '任务已修改' : '个人待办已创建', icon: 'success' })
     } catch (error) {
       wx.showToast({ title: messageOf(error), icon: 'none' })
     } finally {

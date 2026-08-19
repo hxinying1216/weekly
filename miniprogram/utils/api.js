@@ -1,4 +1,4 @@
-const { getSession } = require('./session')
+const { getSession, clearSession } = require('./session')
 
 const API_BASE_URL = 'http://192.168.110.136:8080'
 
@@ -16,6 +16,10 @@ const request = ({ url, method = 'GET', data, withSession = false }) => new Prom
       if (statusCode >= 200 && statusCode < 300) {
         resolve(body)
         return
+      }
+      if (withSession && statusCode === 401) {
+        clearSession()
+        wx.reLaunch({ url: '/pages/auth/index' })
       }
       reject(new Error(body && body.message ? body.message : '请求失败'))
     },
@@ -71,6 +75,12 @@ const completePersonalTodo = (id) => request({
   method: 'PATCH',
   withSession: true
 })
+const updatePersonalTodo = (id, todo) => request({
+  url: `/api/personal-todos/${id}`,
+  method: 'PATCH',
+  data: todo,
+  withSession: true
+})
 const listArchiveTodos = ({ startDate, endDate, assigneeId }) => {
   const assigneeQuery = assigneeId ? `&assigneeId=${encodeURIComponent(assigneeId)}` : ''
   return request({
@@ -104,6 +114,7 @@ module.exports = {
   listAvailableProjects,
   listPersonalTodos,
   createPersonalTodo,
+  updatePersonalTodo,
   completePersonalTodo,
   listArchiveTodos,
   listTeamAssignees,

@@ -94,6 +94,22 @@ public class PersonalTodoService {
     }
   }
 
+  public PersonalTodoResponse update(String authorization, Long todoId, PersonalTodoRequest request) {
+    User user = requireUser(authorization);
+    PersonalTodo todo = todos.findById(todoId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "待办不存在"));
+    if (!todo.getAssigneeId().equals(user.getId())) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "只能修改自己接取的待办");
+    }
+    if (todo.isCompleted()) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "已完成的待办不能修改");
+    }
+    Project project = projects.findById(request.projectId())
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "主任务不存在"));
+    todo.update(project.getId(), request.dueDate(), request.note().trim());
+    return responseOf(todos.save(todo));
+  }
+
   public List<ArchiveProjectResponse> archiveList(
       String authorization, LocalDate startDate, LocalDate endDate, Long assigneeId) {
     User user = requireUser(authorization);

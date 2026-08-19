@@ -78,6 +78,40 @@
   border-bottom: 1rpx solid #eef0f4;
 }
 
+.profile-heading {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 112rpx;
+}
+
+.profile-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-fold-button {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 72rpx;
+  height: 72rpx;
+  margin: 0 0 0 24rpx;
+}
+
+.profile-fold-chevron {
+  width: 16rpx;
+  height: 16rpx;
+  border-right: 3rpx solid #697386;
+  border-bottom: 3rpx solid #697386;
+  transform: rotate(45deg) translate(-3rpx, -3rpx);
+}
+
+.profile-fold-chevron-open {
+  transform: rotate(225deg) translate(-3rpx, -3rpx);
+}
+
 .section-description {
   display: block;
   margin-top: 10rpx;

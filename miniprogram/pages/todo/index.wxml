@@ -39,7 +39,10 @@
           <view class="task-actions">
             <text class="task-assignee">接取人：{{item.assignee}}</text>
             <text class="task-date">截止：{{item.dateLabel}}</text>
-            <button class="complete-button" loading="{{completingId === item.id}}" disabled="{{completingId !== null}}" data-id="{{item.id}}" bindtap="completeTask">完成</button>
+            <view class="task-action-buttons">
+              <button class="edit-button" disabled="{{completingId !== null}}" data-id="{{item.id}}" bindtap="openEditDialog">修改</button>
+              <button class="complete-button" loading="{{completingId === item.id}}" disabled="{{completingId !== null}}" data-id="{{item.id}}" bindtap="completeTask">完成</button>
+            </view>
           </view>
         </view>
       </view>
@@ -54,7 +57,7 @@
   <view wx:if="{{isAddDialogVisible}}" class="dialog-mask" bindtap="closeAddDialog">
     <view class="add-dialog" catchtap="stopDialogTap">
       <view class="dialog-header">
-        <text class="section-title">添加个人待办</text>
+        <text class="section-title">{{editingId ? '修改个人待办' : '添加个人待办'}}</text>
         <view class="dialog-close" role="button" aria-label="关闭" bindtap="closeAddDialog">×</view>
       </view>
       <view class="field-group">
@@ -75,7 +78,7 @@
       </view>
       <view class="dialog-actions">
         <button class="cancel-button" bindtap="closeAddDialog">取消</button>
-        <button class="confirm-button" bindtap="addTask">添加</button>
+        <button class="confirm-button" loading="{{isSaving}}" disabled="{{isSaving}}" bindtap="addTask">{{editingId ? '保存' : '添加'}}</button>
       </view>
     </view>
   </view>

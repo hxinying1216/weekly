@@ -16,6 +16,20 @@ CREATE TABLE IF NOT EXISTS users (
   UNIQUE KEY uk_users_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 会话仅保存 token 哈希；服务重启后仍可在过期前恢复登录。
+CREATE TABLE IF NOT EXISTS user_sessions (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  token_hash CHAR(64) NOT NULL,
+  user_id BIGINT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  expires_at DATETIME NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_user_sessions_token_hash (token_hash),
+  KEY idx_user_sessions_user_id (user_id),
+  KEY idx_user_sessions_expires_at (expires_at),
+  CONSTRAINT fk_user_sessions_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 项目表存储管理员创建的大任务，后续普通用户子任务可关联 projects.id。
 CREATE TABLE IF NOT EXISTS projects (
   id BIGINT NOT NULL AUTO_INCREMENT,

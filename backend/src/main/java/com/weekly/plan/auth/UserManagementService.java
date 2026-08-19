@@ -51,10 +51,15 @@ public class UserManagementService {
 
     user.setUsername(username);
     user.setRole(request.role());
-    if (!request.password().isEmpty()) {
+    boolean passwordChanged = !request.password().isEmpty();
+    if (passwordChanged) {
       user.setPasswordHash(passwordEncoder.encode(request.password()));
     }
-    return ManagedUserResponse.from(users.save(user));
+    ManagedUserResponse response = ManagedUserResponse.from(users.save(user));
+    if (passwordChanged) {
+      sessions.invalidateFor(userId);
+    }
+    return response;
   }
 
   public ManagedUserResponse updateRole(String authorization, Long userId, UserRoleUpdateRequest request) {
@@ -66,6 +71,7 @@ public class UserManagementService {
 
   public void delete(String authorization, Long userId) {
     requireAdmin(authorization);
+    sessions.invalidateFor(userId);
     users.delete(userById(userId));
   }
 
